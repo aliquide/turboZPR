@@ -1,5 +1,72 @@
-/*basic reset*/
-* {margin: 0; padding: 0;}
-/*adding a black bg to the body to make things clearer*/
-body {background: black;}
-canvas {display: block;}
+@import url(http://fonts.googleapis.com/css?family=Montserrat);
+
+.card {
+  transition: all 0.5s;
+  background-image: url("images/card_background.png");
+  padding: 10px;
+  position: absolute;
+  width: 220px;
+  height: 340px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  box-shadow: -10px 10px 30px 10px rgba(0, 0, 0, 0.8);
+  cursor: pointer;
+  -webkit-transform: scale(0.5);
+}
+
+.card:hover {
+  -webkit-transform: scale(1);
+}
+
+.monsterName {
+  text-align: center;
+  font: 20px Montserrat;
+}
+
+.monsterImgBorder {
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+
+  width: 180px;
+  height: 160px;
+}
+
+.monsterImg img {
+  vertical-align: middle;
+  left: auto;
+  right: auto;
+}
+
+.monsterDescription {
+  border: groove 3px;
+  background-color: rgba(255, 255, 255, 0.6);
+  margin-left: auto;
+  margin-right: auto;
+  font: 12px Montserrat;
+  width: 180px;
+  height: 60px;
+}
+
+.attackField {
+  font: 18px Montserrat;
+  margin-top:3%;
+  border: groove 3px;
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  margin-left: 5%;
+  margin-right: 70%;
+  text-align: center;
+}
+
+.healthField {
+  font: 18px Montserrat;
+  text-align: center;
+  margin-top:3%;
+  border: groove 3px;
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  margin-left: 164px;
+}
