@@ -12,17 +12,16 @@ $(document).ready(function() {
 
   Card.prototype.displayCard = function() {
   	var htmlCard = "<div class=\"draggable\"><div class=\"card\">"
-	htmlCard += "<h1 class=\"monsterName\">" + this.name + "</h1>"
-	htmlCard += "<div class=\"monsterImgBorder\"><img class=\"monsterImg\" src=\"" + this.image + "\"></div>"
-	htmlCard += "<div class=\"monsterDescription\">" + this.description + "</div>"
-	htmlCard += "<div class=\"attackField\">" + this.attack + "</div>"
-	htmlCard += "<div class=\"healthField\">" + this.health + "</div>"
-	htmlCard += "</div></div>"
+  	htmlCard += "<h1 class=\"monsterName\">" + this.name + "</h1>"
+  	htmlCard += "<div class=\"monsterImgBorder\"><img class=\"monsterImg\" src=\"" + this.image + "\"></div>"
+  	htmlCard += "<div class=\"monsterDescription\">" + this.description + "</div>"
+  	htmlCard += "<div class=\"attackField\">" + this.attack + "</div>"
+  	htmlCard += "<div class=\"healthField\">" + this.health + "</div>"
+  	htmlCard += "</div></div>"
 
-	$("body").append(htmlCard);
+  	$("#playerHand").append(htmlCard);
   	$(".draggable").draggable({stack: "div"});
   }
 
   $("#addCard").click(function () { monsterCard.displayCard(); });
-
 });

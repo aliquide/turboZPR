@@ -1,6 +1,61 @@
 @import url(http://fonts.googleapis.com/css?family=Montserrat);
 
+#addCard {
+  position: absolute;
+}
+
+#game {
+  width: 1000;
+  height: 600;
+  border: 1px solid;
+  margin: auto;
+  margin-top: auto;
+}
+
+#playerHand {
+  box-sizing:border-box;
+  -moz-box-sizing:border-box;
+  -webkit-box-sizing:border-box;
+  float: left;
+  width: 15%;
+  height: 100%;
+  border: 1px dotted;
+}
+
+#opponentHand {
+  box-sizing:border-box;
+  -moz-box-sizing:border-box;
+  -webkit-box-sizing:border-box;
+  float: right;
+  width: 15%;
+  height: 100%;
+  border: 1px dotted;
+}
+#opponentBoard {
+  box-sizing:border-box;
+  -moz-box-sizing:border-box;
+  -webkit-box-sizing:border-box;
+  float: top;
+  margin-left: 15%;
+  width: 70%;
+  height: 50%;
+  border: 1px dashed;
+}
+
+#playerBoard {
+  box-sizing:border-box;
+  -moz-box-sizing:border-box;
+  -webkit-box-sizing:border-box;
+  float: bottom;
+  margin-left: 15%;
+  width: 70%;
+  height: 50%;
+  border: 1px double;
+}
+
+
 .card {
+  
   /* Disabling selection */
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -21,16 +76,15 @@
   -webkit-transform: scale(0.5);
 }
 
+/*
 .card:hover {
-  /* Scaling the card */
   -webkit-transform: scale(1);
   transform: scale(1);
 
-  /* Scaling shadow */
   box-shadow: -10px 10px 60px 30px rgba(0, 0, 0, 0.3);
   cursor: pointer;;
 }
-
+*/
 .monsterName {
   text-align: center;
   font: 20px Montserrat;
