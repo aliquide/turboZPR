@@ -1,18 +1,32 @@
-@import url(http://fonts.googleapis.com/css?family=Montserrat);
+/*@import url(http://fonts.googleapis.com/css?family=Montserrat);*/
 
-#addCard {
+body {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+  position: relative;
+}
+
+#addCard1 {
   position: absolute;
+  left: 0;
+}
+
+#addCard2 {
+  position: absolute;
+  right: 0;
 }
 
 #game {
-  width: 1000;
-  height: 600;
+  position: relative;
+  width: 1200;
+  height: 800;
   border: 1px solid;
   margin: auto;
-  margin-top: auto;
 }
 
 #playerHand {
+  position: relative;
   box-sizing:border-box;
   -moz-box-sizing:border-box;
   -webkit-box-sizing:border-box;
@@ -23,6 +37,7 @@
 }
 
 #opponentHand {
+  position: relative;
   box-sizing:border-box;
   -moz-box-sizing:border-box;
   -webkit-box-sizing:border-box;
@@ -31,6 +46,76 @@
   height: 100%;
   border: 1px dotted;
 }
+
+#playerImage {
+  float: top;
+  background-image: url("images/warlock.jpg");
+  width: 100%;
+  height: 30%;
+  z-index: 100;
+}
+
+#opponentImage {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  background-image: url("images/warlock.jpg");
+  width: 100%;
+  height: 30%;
+  z-index: 101;
+}
+
+#playerHand ul {
+  float: bottom;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+#opponentHand ul 
+{
+  position: relative;
+  float: top;
+  width: 100%;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+#playerHand li {
+  position: relative;
+  box-sizing:border-box;
+  -moz-box-sizing:border-box;
+  -webkit-box-sizing:border-box;
+  width: 100%;
+  height: 5%;
+}
+
+#cardsPlayerBoard
+{
+  position: relative;
+  width: 100%;
+  height: 100%;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+#cardsPlayerBoard li {
+  padding: 0;
+  margin: 0;
+  position: relative;
+  display: inline-block;
+  width: 20%;
+  height: 50%;
+}
+
+#opponentHand li {
+  position: relative;
+  width: 100%;
+  height: 5%;
+}
+
 #opponentBoard {
   box-sizing:border-box;
   -moz-box-sizing:border-box;
@@ -43,19 +128,22 @@
 }
 
 #playerBoard {
-  box-sizing:border-box;
-  -moz-box-sizing:border-box;
-  -webkit-box-sizing:border-box;
+  position: relative;
   float: bottom;
   margin-left: 15%;
   width: 70%;
   height: 50%;
-  border: 1px double;
 }
 
+.draggable {
+  position: relative;
+  width: 140px;
+  height: 210px;
+  margin: auto;
+}
 
 .card {
-  
+  position: relative;
   /* Disabling selection */
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -67,19 +155,16 @@
 
   transition: all 0.5s;
   background-image: url("images/card_background.png");
-  padding: 10px;
-  position: absolute;
-  width: 220px;
-  height: 340px;
-  box-shadow: -10px 10px 30px 10px rgba(0, 0, 0, 0.8);
+  width: 140px;
+  height: 210px;
+  box-shadow: 0px -5px 5px 3px rgba(0, 0, 0, 0.4);
   cursor: pointer;
-  -webkit-transform: scale(0.5);
 }
 
 /*
 .card:hover {
-  -webkit-transform: scale(1);
-  transform: scale(1);
+  -webkit-transform: scale(2);
+  transform: scale(2);
 
   box-shadow: -10px 10px 60px 30px rgba(0, 0, 0, 0.3);
   cursor: pointer;;
@@ -87,7 +172,7 @@
 */
 .monsterName {
   text-align: center;
-  font: 20px Montserrat;
+  font: 10px Consolas;
 }
 
 .monsterImgBorder {
@@ -95,45 +180,45 @@
   margin-right: auto;
   position: relative;
 
-  width: 180px;
-  height: 160px;
+  width: 90%;
+  height: 50%;
 }
 
-.monsterImg img {
+.monsterImg {
   vertical-align: middle;
   left: auto;
   right: auto;
+  width: 100%;
+  height: 100%;
 }
 
 .monsterDescription {
-  border: groove 3px;
+  border: solid 3px;
   background-color: rgba(255, 255, 255, 0.6);
   margin-left: auto;
   margin-right: auto;
-  font: 12px Montserrat;
-  width: 180px;
-  height: 60px;
+  font: 8px Consolas;
+  width: 90%;
+  height: 25%;
 }
 
 .attackField {
-  font: 18px Montserrat;
-  margin-top:3%;
-  border: groove 3px;
   position: absolute;
-  width: 40px;
-  height: 40px;
-  margin-left: 5%;
-  margin-right: 70%;
+  font: 10px Consolas;
+  border: solid 3px;
+  position: absolute;
+  width: 15%;
+  height: 10%;
+  left: 15%;
   text-align: center;
 }
 
 .healthField {
-  font: 18px Montserrat;
-  text-align: center;
-  margin-top:3%;
-  border: groove 3px;
   position: absolute;
-  width: 40px;
-  height: 40px;
-  margin-left: 164px;
+  left: 70%;
+  font: 10px Consolas;
+  text-align: center;
+  border: solid 3px;
+  width: 15%;
+  height: 10%;
 }
