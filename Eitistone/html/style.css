@@ -1,10 +1,16 @@
 /*@import url(http://fonts.googleapis.com/css?family=Montserrat);*/
+html {
+  overflow-x: hidden;
+  overflow-y: hidden;
+}
 
 body {
+  background: url(images/wood_texture.jpg);
   -webkit-user-select: none;
   -moz-user-select: none;
   user-select: none;
   position: relative;
+  z-index: -3;
 }
 
 #addCard1 {
@@ -18,41 +24,44 @@ body {
 }
 
 #game {
+  background-image: url(images/game.jpg);
+  background-size: 100%;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
   position: relative;
-  width: 1200;
-  height: 800;
-  border: 1px solid;
+  width: 1050;
+  height: 700;
+  border: 4px solid;
   margin: auto;
+  z-index: -2;
 }
 
 #playerHand {
   position: relative;
-  box-sizing:border-box;
-  -moz-box-sizing:border-box;
-  -webkit-box-sizing:border-box;
   float: left;
   width: 15%;
   height: 100%;
-  border: 1px dotted;
 }
 
 #opponentHand {
   position: relative;
-  box-sizing:border-box;
-  -moz-box-sizing:border-box;
-  -webkit-box-sizing:border-box;
   float: right;
   width: 15%;
   height: 100%;
-  border: 1px dotted;
 }
 
 #playerImage {
   float: top;
-  background-image: url("images/warlock.jpg");
   width: 100%;
   height: 30%;
-  z-index: 100;
+  z-index: -5;
+}
+
+#playerImage img {
+  width: 100%;
+  height: 100%;
+  z-index: -5;
 }
 
 #opponentImage {
@@ -62,10 +71,18 @@ body {
   background-image: url("images/warlock.jpg");
   width: 100%;
   height: 30%;
-  z-index: 101;
+  z-index: -5;
 }
 
+#opponentImage img {
+  width: 100%;
+  height: 100%;
+  z-index: -5;
+}
+
+
 #playerHand ul {
+  z-index: 5;
   float: bottom;
   list-style-type: none;
   padding: 0;
@@ -74,6 +91,7 @@ body {
 
 #opponentHand ul 
 {
+  z-index: 5;
   position: relative;
   float: top;
   width: 100%;
@@ -93,6 +111,7 @@ body {
 
 #cardsPlayerBoard
 {
+  z-index: 5;
   position: relative;
   width: 100%;
   height: 100%;
@@ -117,17 +136,22 @@ body {
 }
 
 #opponentBoard {
+  z-index: 5;
   box-sizing:border-box;
   -moz-box-sizing:border-box;
   -webkit-box-sizing:border-box;
+  border: 1px dashed;
   float: top;
   margin-left: 15%;
   width: 70%;
   height: 50%;
-  border: 1px dashed;
 }
 
 #playerBoard {
+  box-sizing:border-box;
+  -moz-box-sizing:border-box;
+  -webkit-box-sizing:border-box;
+  border: 1px dashed;
   position: relative;
   float: bottom;
   margin-left: 15%;
@@ -135,14 +159,8 @@ body {
   height: 50%;
 }
 
-.draggable {
-  position: relative;
-  width: 140px;
-  height: 210px;
-  margin: auto;
-}
-
 .card {
+  margin: auto;
   position: relative;
   /* Disabling selection */
   -webkit-user-select: none;
@@ -163,13 +181,14 @@ body {
 
 /*
 .card:hover {
-  -webkit-transform: scale(2);
-  transform: scale(2);
+  -webkit-transform: translateX(150%) scale(1.5);
+  transform: translateX(150%) scale(1.5);
 
   box-shadow: -10px 10px 60px 30px rgba(0, 0, 0, 0.3);
   cursor: pointer;;
 }
 */
+
 .monsterName {
   text-align: center;
   font: 10px Consolas;
