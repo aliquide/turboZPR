@@ -1,8 +1,8 @@
 #include <cstdio>
+#include <iostream>
+
 #include "Table.h"
 #include "FactoryOfCarts.h"
-
-#include <iostream>
 
 
 int main(){
@@ -14,8 +14,6 @@ int main(){
 	Player* player_1,* player_2;
 	player_1 = new Player;
 	player_2 = new Player;
-	player_1->health = 1000;
-	player_2->health = 2000;
 
 	//for example we create same deck for each player with 10 spell carts and 10 ally carts 
 	for (int i = 0; i < 10; i++){
@@ -32,7 +30,6 @@ int main(){
 		player_2->getCart();
 	}
 
-
 	//create table
 	Table table;
 
@@ -44,25 +41,20 @@ int main(){
 	while (c != 'q'){
 
 		std::cout << "Gracz nr 1 rozgrywa ture" << std::endl;
-		std::cout << "Wybierz karte (0-2)" << std::endl;
+		std::cout << "Wybierz karte (0-2), któr¹ chcesz wy³o¿yæ na stó³." << std::endl;
 		std::cin >> i;
 		//get cart on table
-		table.carts_on_table.push_back(player_1->carts_in_hand.operator[](i));
-
-		//make interaction
-		player_1->hit(*player_2, player_1->carts_in_hand.operator[](i));
+		table.throwCart(*player_1, i);
 		
 		//take new cart
 		player_1->getCart();
 
 		std::cout << "Gracz nr 2 rozgrywa ture" << std::endl;
-		std::cout << "Wybierz karte (0-2)" << std::endl;
+		std::cout << "Wybierz karte (0-2), któr¹ chcesz wy³o¿yæ na stó³." << std::endl;
 		std::cin >> i;
-		//get cart on table
-		table.carts_on_table.push_back(player_2->carts_in_hand.operator[](i));
 
-		//make interaction
-		player_2->hit(*player_1, player_2->carts_in_hand.operator[](i));
+		//get cart on table
+		table.throwCart(*player_2, i);
 
 		//take new cart
 		player_2->getCart();
@@ -70,6 +62,11 @@ int main(){
 		std::cout << "Pozosta³o ¿ycia : " << std::endl;
 		std::cout << "Gracz 1: " << table.player_1->health << std::endl;
 		std::cout << "Gracz 2: " << table.player_2->health << std::endl;
+
+		std::cout << "Pozosta³o many : " << std::endl;
+		std::cout << "Gracz 1: " << table.player_1->mana << std::endl;
+		std::cout << "Gracz 2: " << table.player_2->mana << std::endl;
+
 
 		std::cout << "Dalej? t/q" << std::endl;
 		std::cin >> c;

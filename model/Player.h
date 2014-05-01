@@ -7,6 +7,8 @@
 #include <vector>
 
 #include "Cart.h"
+#include "AllyCart.h"
+#include "SpellCart.h"
 
 enum Character{
 	DRUID,
@@ -26,7 +28,9 @@ public:
 	std::vector<Cart> carts_in_hand;
 	std::vector<Cart> deck;
 
-	void hit(Player&, Cart);
+	Player();
+
+	
 	void getCart();
 
 };

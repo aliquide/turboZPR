@@ -5,6 +5,6 @@ AllyCart::AllyCart(){
 	this->health = 1000;
 	this->interaction = -200;
 	this->type_of_cart = MONSTER;
-
+	this->status = false;
 };
 

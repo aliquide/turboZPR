@@ -6,6 +6,7 @@
 class AllyCart: public Cart{
 public:
 	int health;
+	bool status;
 
 	AllyCart();
 	~AllyCart();

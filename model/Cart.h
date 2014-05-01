@@ -13,10 +13,10 @@ public:
 	int interaction;
 	int cost_of_mana;
 
+	
 //protected:
 	//Cart();
 	//~Cart();
-
 
 };
 
