@@ -1,19 +1,19 @@
-#ifndef CART
-#define CART
+#ifndef CARD
+#define CARD
 
-enum TypeOfCart{
+enum TypeOfCard{
 	MONSTER,
 	SPELL
 };
 
-class Cart{
+class Card{
 public:
 
-	TypeOfCart type_of_cart;
+	TypeOfCard type_of_card;
 	int interaction;
 	int cost_of_mana;
 
-	
+	virtual void virtual_method(){};
 //protected:
 	//Cart();
 	//~Cart();

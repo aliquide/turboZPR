@@ -6,9 +6,9 @@
 #include <cstdlib>
 #include <vector>
 
-#include "Cart.h"
-#include "AllyCart.h"
-#include "SpellCart.h"
+#include "Card.h"
+#include "AllyCard.h"
+#include "SpellCard.h"
 
 enum Character{
 	DRUID,
@@ -25,13 +25,13 @@ public:
 	Character type_;
 
 	//smart pointers
-	std::vector<Cart> carts_in_hand;
-	std::vector<Cart> deck;
+	std::vector<Card*> cards_in_hand;
+	std::vector<Card*> deck;
 
 	Player();
 
 	
-	void getCart();
+	void getCard();
 
 };
 

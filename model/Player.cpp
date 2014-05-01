@@ -7,9 +7,9 @@ Player::Player(){
 }
 
 
-void Player::getCart(){
-	Cart cart_temp;
-	cart_temp = deck.back();
+void Player::getCard(){
+	Card card_temp;
+	card_temp = *deck.back();
 	deck.pop_back();
-	carts_in_hand.push_back(cart_temp);
+	cards_in_hand.push_back(&card_temp);
 };

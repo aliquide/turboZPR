@@ -1,47 +1,51 @@
 #include "Table.h"
 
-Table* Table::copy = 0;
 
-Table* Table::Copy(){
-	if (copy == 0) {
-		copy = new Table;
-	}
-	return copy;
-}
+void Table::useCard(Player& player, int i){
+	Card& card = *(player.cards_in_hand.operator[](i));
 
-void Table::useCart(Player& player, int i){
-	Cart cart = player.carts_in_hand.operator[](i);
+	player.mana -= card.cost_of_mana;
+	std::cout <<"mana w usecard: "<< player.cards_in_hand.operator[](i)->cost_of_mana << std::endl;
 
-	player.mana -= cart.cost_of_mana;
-
-	if (cart.type_of_cart == MONSTER){
-		Cart *cast = &cart;
-		AllyCart* acart = static_cast<AllyCart*>(cast);
-		if (acart->status == false)
+	if (card.type_of_card == MONSTER){
+		AllyCard& acard = dynamic_cast<AllyCard&>(card);
+		if (acard.status == false)
 			return;
 	}
 
 	if (&player == player_1){
-		player_2->health += cart.interaction;
+		player_2->health += card.interaction;
 	}
 	else
 	{
-		player_1->health += cart.interaction;
+		player_1->health += card.interaction;
 	}
 	
 };
 
-void Table::throwCart(Player& player, int i){
+void Table::throwCard(Player& player, int i){
 	
-	Cart& cart = player.carts_in_hand.operator[](i);
+	Card& card = *player.cards_in_hand.operator[](i);
 
-	//if cart is type of spell, we use it and forget about it
-	if (cart.type_of_cart == SPELL){
-		useCart(player, i);
-	}
-	else { //if cart is type of ally we throw it on table and wait for action 
-		this->carts_on_table.push_back(cart);
-	}
+	//if card is type of ally or spell we throw it on table and wait for action 
+	this->cards_on_table.push_back(card);
+
 	//we must get it from hand ofc
-	player.carts_in_hand.erase(player.carts_in_hand.begin() + i);
+	player.cards_in_hand.erase(player.cards_in_hand.begin() + i);
+};
+
+void Table::activateCard(Player& player, int i){ //tutaj nie dziala cos
+
+	Card& card = *player.cards_in_hand.operator[](i);
+
+	if (card.type_of_card == MONSTER){
+		AllyCard& acard = dynamic_cast<AllyCard&>(card);
+		if (acard.status == false)
+			acard.status = true;
+		player.cards_in_hand.operator[](i) = &static_cast<Card&>(acard);
+		
+	}
+	else
+		return;
+
 };
