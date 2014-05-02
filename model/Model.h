@@ -11,9 +11,10 @@
 
 class Model{
 public:
-	Player *player_1, *player_2;
+	
+	Table table;
 
-	void update(Table&,Player&);
+	void update(Player&);
 
 };
 
