@@ -12,20 +12,20 @@ def msg_from_game():
 	return client_socket.recv(1024)
 
 class WSHandler(tornado.websocket.WebSocketHandler):
-    def open(self):
-		self.callback = PeriodicCallback(self.send_msg, 9000)
-		self.send_msg()			
-		self.callback.start()
+        def open(self):
+                self.callback = PeriodicCallback(self.send_msg,9000)
+                self.send_msg()
+                self.callback.start()
 
-    def send_msg(self):
-        self.write_message(msg_from_game())
+        def send_msg(self):
+                self.write_message(msg_from_game())
 
-    def on_message(self, message):
-		self.write_message(message.upper());
+        def on_message(self, message):
+                self.write_message(message.upper())
         
 
-    def on_close(self):
-        self.callback.stop()
+        def on_close(self):
+                self.callback.stop()
         
 
 application = tornado.web.Application([
@@ -33,7 +33,7 @@ application = tornado.web.Application([
 ])
 
 if __name__ == "__main__":
-    http_server = tornado.httpserver.HTTPServer(application)
-    http_server.listen(8888)
-    tornado.ioloop.IOLoop.instance().start()
+        http_server = tornado.httpserver.HTTPServer(application)
+        http_server.listen(8888)
+        tornado.ioloop.IOLoop.instance().start()
 	
