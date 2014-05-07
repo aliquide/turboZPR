@@ -1,0 +1,36 @@
+<html>
+<head>
+	<title>ZPR PROJEKT</title>
+	<script> 
+
+	function comunication(){
+
+		alert("in comunication()");
+
+		var val= document.getElementById("data").value;
+		var ws = new WebSocket("ws://localhost:8888");
+
+		ws.onopen = function(evt) { alert("Connection open ..." + val);
+		ws.send(val); };
+		ws.onmessage = function(evt) {
+			//alert("from server: "+evt.data);
+			//document.write(evt.data);
+			document.getElementById("pole").innerHTML = evt.data;	
+		}
+
+		ws.onclose = function(evt) { 
+        alert("Connection closed.");
+		}
+	}
+
+</script>
+
+</head>
+<body bgcolor="#FFFFFF">
+	<div style="float:down;width:300px;height:250px;overflow:scroll-y;padding:10px;">
+    <input type="text" id="data" />
+    <button onClick="comunication()">SEND</button>
+    <p id="pole"> </p>
+	</div>
+</body>
+</html>
