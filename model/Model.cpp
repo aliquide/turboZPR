@@ -28,3 +28,9 @@ void Model::update(Player& player){
 		}
 	}
 };
+
+Model::Model(String id_player_a, String id_player_b){
+	
+	table.create(id_player_a, id_player_b);
+	
+};

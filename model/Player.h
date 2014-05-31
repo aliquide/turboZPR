@@ -21,6 +21,7 @@ class Player{
 public:
 	int mana;
 	int health;
+	String player_id;
 
 	Character type_;
 
@@ -29,7 +30,6 @@ public:
 	std::vector<Card*> deck;
 
 	Player();
-
 	
 	void getCard();
 

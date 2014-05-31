@@ -4,17 +4,17 @@
 #include <cstring>
 #include <sys/types.h>
 //#include <sys/socket.h> //linuks
-#include <winsock.h> //windows
-#include <windows.h> //windows
+//#include <winsock.h> //windows
+//#include <windows.h> //windows
 //#include <netdb.h> // linuks
 //#include <netinet/in.h>//linuks
 
-//#include "Model.h"
+#include "Model.h"
 
 
 
 int main(){
-
+/*
 
 	int slucham_bo_moge, msg_socket, rval;
 	struct sockaddr_in server;
@@ -49,38 +49,11 @@ int main(){
 	closesocket(msg_socket); //dla windowsa
 	}
 
-/*
-	Model model;
-
-	FactoryOfCards factory;
-
-	//just for example
-	Player* player_1,* player_2;
-	player_1 = new Player;
-	player_2 = new Player;
-
-	//for example we create same deck for each player with 10 spell carts and 10 ally carts
-	for (int i = 0; i < 10; i++){
-		player_1->deck.push_back(factory.createCard(SPELL));
-		player_1->deck.push_back(factory.createCard(MONSTER));
-
-		player_2->deck.push_back(factory.createCard(SPELL));
-		player_2->deck.push_back(factory.createCard(MONSTER));
-	}
-
-	//we choose 3 carts to hand, it would be random or chosen by player later
-	for (int i = 0; i < 3; i++){
-		player_1->getCard();
-		player_2->getCard();
-	}
+*/
 
 	//create table
-	Table table;
+	Model model(player_id_A, player_id_B);
 
-	table.player_1 = player_1;
-	table.player_2 = player_2;
-	model.table = table;
-	model.table.cards_on_table = table.cards_on_table;
 
 	int i;
 	char c = 'a';
@@ -153,6 +126,6 @@ int main(){
 		std::cin >> c;
 
 	};
-	* */
+	
 	return 0;
 }

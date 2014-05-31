@@ -44,3 +44,28 @@ void Table::activateCard(int i){
 		return;
 
 };
+
+void Table::create(String player_A_id, String player_B_id){
+
+	FactoryOfCards factory;
+	
+	player_A->player_id= player_A_id;
+	player_B->player_id= player_B_id;
+	
+	//for example we create same deck for each player with 10 spell carts and 10 ally carts
+	for (int i = 0; i < 10; i++){
+		player_A->deck.push_back(factory.createCard(SPELL));
+		player_A->deck.push_back(factory.createCard(MONSTER));
+
+		player_B->deck.push_back(factory.createCard(SPELL));
+		player_B->deck.push_back(factory.createCard(MONSTER));
+	}
+
+	//we choose 3 carts to hand, it would be random or chosen by player later
+	for (int i = 0; i < 3; i++){
+		player_A->getCard();
+		player_B->getCard();
+	}
+	
+	return;
+};
