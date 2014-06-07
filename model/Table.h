@@ -20,7 +20,7 @@ public:
 	void create(std::string, std::string);
 	
 //protected:
-	//Table();
+	Table();
 
 };
 

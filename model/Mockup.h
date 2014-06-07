@@ -12,12 +12,12 @@
 enum StateOfTour{
 	TOUR_PLAYER_A,
 	TOUR_PLAYER_B,
-	END_OF_TOUR
 };
 
 enum StateOfGame{
-	GAMESTART_TRUE
-
+	GAMESTART_TRUE,
+	RUNNING,
+	END_OF_GAME
 };
 
 struct Mockup{
@@ -30,7 +30,7 @@ struct Mockup{
 	
 	//plus cards in deck
 	
-	//ID of game tour
+	//ID gracza ktory ma teraz ture
 	std::string id_tour;
 	
 	StateOfTour actual_state_of_tour;

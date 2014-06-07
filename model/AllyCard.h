@@ -8,6 +8,8 @@ public:
 	int health;
 	bool status;
 
+	const AllyCard& operator=(AllyCard);
+
 	AllyCard();
 	~AllyCard();
 

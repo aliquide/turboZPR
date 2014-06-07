@@ -7,6 +7,9 @@ class SpellCard : public Card{
 public:
 	SpellCard();
 	~SpellCard();
+	
+	const SpellCard& operator=(SpellCard);
+	
 };
 
 

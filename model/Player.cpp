@@ -8,8 +8,10 @@ Player::Player(){
 }
 
 void Player::getCard(){
-	Card* card_temp;
+	
+	Card* card_temp = new (Card);
 	card_temp = deck.back();
-	deck.pop_back();
 	cards_in_hand.push_back(card_temp);
+	deck.pop_back();
+	
 };

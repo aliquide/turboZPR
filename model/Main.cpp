@@ -55,11 +55,17 @@ int main(){
 
 	//create table
 	
+//TO jest w kontrolerze
 	std::string player_id_A="playerA", player_id_B="playerB";
 	
 	Communication communication;
-	
+
 	Model model(player_id_A, player_id_B);
+
+	for (unsigned int i = 0; i < model.table.player_A->deck.size(); i++) {
+		std::cout<<"Karty w talii gracza A:  "<< model.table.player_A->deck.at(i)->id_of_card << " typu: "<< model.table.player_A->deck.at(i)->type_of_card<<std::endl;
+	}
+
 
 	communication.kind_of_move = THROW_CARD_ON_TABLE;
 	
@@ -67,44 +73,77 @@ int main(){
 	
 	communication.actual_state_of_tour = TOUR_PLAYER_A;
 	
-	int tour_state;
-	StateOfTour state;
+	int state;
+
+	communication.id_card=200;
 	
 	char c = 'a';
 	
-while (c!= 'q'){
+while (c!= 'n'){
 	
-	std::cout << "Ktory gracz ma ruch (0-1)?"<<std::endl;
-	std::cin >> tour_state;
+	std::cout << "Ktory gracz ma ruch (0 - player A; 1 - player B)?"<<std::endl;
+	std::cin >> state;
 	
-	if(tour_state == 0)
-		state = TOUR_PLAYER_A;
+	if(state == 0)
+		communication.actual_state_of_tour = TOUR_PLAYER_A;
 	else
-		state = TOUR_PLAYER_B;
-		
-		
-	communication.actual_state_of_tour = state;
+		communication.actual_state_of_tour = TOUR_PLAYER_B;
 	
 	
 	if(communication.actual_state_of_tour == TOUR_PLAYER_A)
-		actual_player=model.table.player_A;
+		actual_player = model.table.player_A;
 	else if (communication.actual_state_of_tour == TOUR_PLAYER_B)
 		actual_player = model.table.player_B;
+
+	
+	std::cout<<"Co chcesz zrobic (0 - throw card on table; 1 - attack; 2 - get card from deck) ?"<<std::endl;
+	std::cin>>state;
+	
+	switch (state){
+		case 0:
+		communication.kind_of_move = THROW_CARD_ON_TABLE;
+		break;
+		
+		case 1:
+		communication.kind_of_move = ATTACK;
+		break;
+		
+		case 2:
+		communication.kind_of_move = GET_CARD;
+		
+	}
+	
+if(communication.kind_of_move != GET_CARD){
+	std::cout<<"Twoje karty na stole (id_card): " << std::endl;
+	for(unsigned int i=0; i< actual_player->cards_on_table.size(); i++){
+		std::cout<<actual_player->cards_on_table.at(i)->id_of_card<<std::endl;
+	}
+	
+	std::cout<<"Twoje karty w reku (id_card): " << std::endl;
+	for(unsigned int i=0; i< actual_player->cards_in_hand.size(); i++){
+		std::cout<<actual_player->cards_in_hand.at(i)->id_of_card<<std::endl;
+	}
+	
+	std::cout<<"Ktora karta chcesz GRAC" <<std::endl;
+	std::cin>>state;
+}	
+	
 	
 
 switch ( communication.kind_of_move ){
 	
 	case THROW_CARD_ON_TABLE:
-	model.table.throwCard(*actual_player, communication.id_card);
-	;
+	model.table.throwCard(*actual_player, state);
+	break;
 	
 	case ATTACK:
-	model.table.activateCard(*actual_player, communication.id_card);
-	;
+	model.table.activateCard(*actual_player, state);
+	model.update(*actual_player);
+	break;
 	
 	case GET_CARD:
 	actual_player->getCard();
-	;
+	break;
 	
 	default:
 	model.update(*actual_player);
@@ -112,12 +151,12 @@ switch ( communication.kind_of_move ){
 };
 
 		std::cout << "Pozostalo zycia : " << std::endl;
-		std::cout << "Gracz 1: " << model.table.player_A->health << std::endl;
-		std::cout << "Gracz 2: " << model.table.player_B->health << std::endl;
+		std::cout << "Gracz A: " << model.table.player_A->health << std::endl;
+		std::cout << "Gracz B: " << model.table.player_B->health << std::endl;
 
 		std::cout << "Pozostalo many : " << std::endl;
-		std::cout << "Gracz 1: " << model.table.player_A->mana << std::endl;
-		std::cout << "Gracz 2: " << model.table.player_B->mana << std::endl;
+		std::cout << "Gracz A: " << model.table.player_A->mana << std::endl;
+		std::cout << "Gracz B: " << model.table.player_B->mana << std::endl;
 
 		std::cout << "Dalej? t/n" << std::endl;
 		std::cin >> c;
