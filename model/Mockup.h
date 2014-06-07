@@ -10,32 +10,33 @@
 #define max_in_hand 5
 
 enum StateOfTour{
-	
-}
+	TOUR_PLAYER_A,
+	TOUR_PLAYER_B,
+	END_OF_TOUR
+};
 
 enum StateOfGame{
-	GAMESTART_TRUE;
-	TOUR_PLAYER_A;
-	TOUR_PLAYER_B;
-}
+	GAMESTART_TRUE
+
+};
 
 struct Mockup{
 	
-	Card[max_on_table] cards_on_table_player_A;
-	Card[max_on_table] cards_on_table_player_B;
+	Card cards_on_table_player_A[max_on_table];
+	Card cards_on_table_player_B[max_on_table];
 	
-	Card[max_in_hand] cards_in_hand_player_A;
-	Card[max_in_hand] cards_in_hand_player_B;
+	Card cards_in_hand_player_A[max_in_hand];
+	Card cards_in_hand_player_B[max_in_hand];
 	
 	//plus cards in deck
 	
 	//ID of game tour
-	string tour;
+	std::string id_tour;
 	
 	StateOfTour actual_state_of_tour;
 	
 	StateOfGame actual_state_of_game;
 	
-	}
+	};
 
 #endif 

@@ -1,8 +1,10 @@
 #include "Table.h"
-
+#include "FactoryOfCards.h"
 
 void Table::useCard(Player& player, int i){
-	Card* card = (cards_on_table.operator[](i));
+	
+	
+	Card* card = (player.cards_on_table.operator[](i));
 
 	player.mana -= card->cost_of_mana;
 
@@ -12,28 +14,40 @@ void Table::useCard(Player& player, int i){
 			return;
 	}
 
-	if (&player == player_1){
-		player_2->health += card->interaction;
+	if (&player == player_A){
+		player_B->health += card->interaction;
 	}
 	else
 	{
-		player_1->health += card->interaction;
+		player_A->health += card->interaction;
 	}
 	
 };
 
-void Table::throwCard(Player& player, int i){
+void Table::throwCard(Player& player, int id_card){
 
+	Card* card;
+
+	for(unsigned int i=0; i< player.cards_in_hand.size(); i++)
+		if (id_card == player.cards_in_hand.at(i)->id_of_card)
+			card = player.cards_in_hand.at(i);
+		
 	//if card is type of ally or spell we throw it on table and wait for action 
-	this->cards_on_table.push_back(player.cards_in_hand.at(i));
+	player.cards_on_table.push_back(card);
 
 	//we must get it from hand ofc
-	player.cards_in_hand.erase(player.cards_in_hand.begin() + i);
+	for(unsigned int i=0; i< player.cards_in_hand.size(); i++)
+		if (id_card == player.cards_in_hand.at(i)->id_of_card)
+			player.cards_in_hand.erase(player.cards_in_hand.begin() + i);
 };
 
-void Table::activateCard(int i){ 
+void Table::activateCard(Player& player, int id_card){ 
 
-	Card* card = cards_on_table.at(i);
+	Card* card;
+
+	for(unsigned int i=0; i< player.cards_on_table.size(); i++)
+		if (id_card == player.cards_on_table.at(i)->id_of_card)
+			card = player.cards_on_table.at(i);
 
 	if (card->type_of_card == MONSTER){
 		AllyCard* acard = dynamic_cast<AllyCard*>(card);
@@ -45,7 +59,7 @@ void Table::activateCard(int i){
 
 };
 
-void Table::create(String player_A_id, String player_B_id){
+void Table::create(std::string player_A_id, std::string player_B_id){
 
 	FactoryOfCards factory;
 	

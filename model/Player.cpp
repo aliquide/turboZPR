@@ -2,6 +2,7 @@
 
 
 Player::Player(){
+	
 	this->mana = 20;
 	this->health = 2000;
 }

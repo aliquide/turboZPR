@@ -10,7 +10,9 @@
 //#include <netinet/in.h>//linuks
 
 #include "Model.h"
-
+//#include "Model.cpp"
+#include "Communication.h"
+#include "Mockup.h"
 
 
 int main(){
@@ -52,9 +54,76 @@ int main(){
 */
 
 	//create table
+	
+	std::string player_id_A="playerA", player_id_B="playerB";
+	
+	Communication communication;
+	
 	Model model(player_id_A, player_id_B);
 
+	communication.kind_of_move = THROW_CARD_ON_TABLE;
+	
+	Player *actual_player;
+	
+	communication.actual_state_of_tour = TOUR_PLAYER_A;
+	
+	int tour_state;
+	StateOfTour state;
+	
+	char c = 'a';
+	
+while (c!= 'q'){
+	
+	std::cout << "Ktory gracz ma ruch (0-1)?"<<std::endl;
+	std::cin >> tour_state;
+	
+	if(tour_state == 0)
+		state = TOUR_PLAYER_A;
+	else
+		state = TOUR_PLAYER_B;
+		
+		
+	communication.actual_state_of_tour = state;
+	
+	
+	if(communication.actual_state_of_tour == TOUR_PLAYER_A)
+		actual_player=model.table.player_A;
+	else if (communication.actual_state_of_tour == TOUR_PLAYER_B)
+		actual_player = model.table.player_B;
+	
 
+switch ( communication.kind_of_move ){
+	
+	case THROW_CARD_ON_TABLE:
+	model.table.throwCard(*actual_player, communication.id_card);
+	;
+	
+	case ATTACK:
+	model.table.activateCard(*actual_player, communication.id_card);
+	;
+	
+	case GET_CARD:
+	actual_player->getCard();
+	;
+	
+	default:
+	model.update(*actual_player);
+	;
+};
+
+		std::cout << "Pozostalo zycia : " << std::endl;
+		std::cout << "Gracz 1: " << model.table.player_A->health << std::endl;
+		std::cout << "Gracz 2: " << model.table.player_B->health << std::endl;
+
+		std::cout << "Pozostalo many : " << std::endl;
+		std::cout << "Gracz 1: " << model.table.player_A->mana << std::endl;
+		std::cout << "Gracz 2: " << model.table.player_B->mana << std::endl;
+
+		std::cout << "Dalej? t/n" << std::endl;
+		std::cin >> c;
+};
+
+/*
 	int i;
 	char c = 'a';
 	while (c != 'n'){
@@ -126,6 +195,6 @@ int main(){
 		std::cin >> c;
 
 	};
-	
+	*/
 	return 0;
 }

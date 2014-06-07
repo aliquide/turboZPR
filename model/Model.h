@@ -1,6 +1,6 @@
 #ifndef MODEL
 #define MODEL
-
+#include <cstring>
 #include "FactoryOfCards.h"
 #include "Player.h"
 #include "Table.h"
@@ -10,6 +10,14 @@
 #include "Mockup.h"
 
 
+enum PlayersMove{
+	THROW_CARD_ON_TABLE,
+	ATTACK,
+	GET_CARD
+	
+	
+	
+};
 
 
 class Model{
@@ -19,7 +27,7 @@ public:
 
 	void update(Player&);
 
-	Model(String, String);
+	Model(std::string, std::string);
 
 };
 

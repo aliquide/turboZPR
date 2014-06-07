@@ -7,19 +7,17 @@
 #include "Card.h"
 #include "Player.h"
 
+
 class Table{
 public:
-	//smart_ptr
-	std::vector<Card*> cards_on_table_player_A;
-	std::vector<Card*> cards_on_table_player_B;
 	
 	Player* player_A, * player_B;
 
 	void useCard(Player&, int);
 	void throwCard(Player&, int);
-	void activateCard(int);
+	void activateCard(Player&, int);
 
-	void create(String, String);
+	void create(std::string, std::string);
 	
 //protected:
 	//Table();
