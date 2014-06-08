@@ -10,7 +10,6 @@
 //#include <netinet/in.h>//linuks
 
 #include "Model.h"
-//#include "Model.cpp"
 #include "Communication.h"
 #include "Mockup.h"
 
@@ -55,18 +54,25 @@ int main(){
 
 	//create table
 	
-//TO jest w kontrolerze
+//TO jest w kontrolerze +co w starcie gry sie dzieje co na zakonczenie, opakowac w kontroler,
+//dodanie celu
+//
+
 	std::string player_id_A="playerA", player_id_B="playerB";
 	
 	Communication communication;
 
 	Model model(player_id_A, player_id_B);
-
+	std::cout<<"Karty w talii gracza A:  ";
 	for (unsigned int i = 0; i < model.table.player_A->deck.size(); i++) {
-		std::cout<<"Karty w talii gracza A:  "<< model.table.player_A->deck.at(i)->id_of_card << " typu: "<< model.table.player_A->deck.at(i)->type_of_card<<std::endl;
+		std::cout<<" "<< model.table.player_A->deck.at(i)->id_of_card << " typu: "<< model.table.player_A->deck.at(i)->type_of_card<<";";
 	}
-
-
+	std::cout<<std::endl;
+	std::cout<<"Karty w talii gracza B:  ";
+	for (unsigned int i = 0; i < model.table.player_B->deck.size(); i++) {
+		std::cout<<" "<< model.table.player_B->deck.at(i)->id_of_card << " typu: "<< model.table.player_B->deck.at(i)->type_of_card<<";";
+	}
+	std::cout<<std::endl;
 	communication.kind_of_move = THROW_CARD_ON_TABLE;
 	
 	Player *actual_player;
@@ -84,11 +90,14 @@ while (c!= 'n'){
 	std::cout << "Ktory gracz ma ruch (0 - player A; 1 - player B)?"<<std::endl;
 	std::cin >> state;
 	
-	if(state == 0)
+	if(state == 0){
 		communication.actual_state_of_tour = TOUR_PLAYER_A;
-	else
+		model.changed_state_tour = TOUR_PLAYER_A;
+	}
+	else{
 		communication.actual_state_of_tour = TOUR_PLAYER_B;
-	
+		model.changed_state_tour = TOUR_PLAYER_B;
+	}
 	
 	if(communication.actual_state_of_tour == TOUR_PLAYER_A)
 		actual_player = model.table.player_A;
@@ -134,106 +143,63 @@ switch ( communication.kind_of_move ){
 	
 	case THROW_CARD_ON_TABLE:
 	model.table.throwCard(*actual_player, state);
+	model.saveData(model.mockup,model.table);
 	break;
 	
 	case ATTACK:
-	model.table.activateCard(*actual_player, state);
-	model.update(*actual_player);
+	model.table.attack(*actual_player,state);
+	model.saveData(model.mockup,model.table);
 	break;
 	
 	case GET_CARD:
 	actual_player->getCard();
+	model.saveData(model.mockup,model.table);
 	break;
 	
 	default:
-	model.update(*actual_player);
+	model.saveData(model.mockup,model.table);
 	;
 };
 
-		std::cout << "Pozostalo zycia : " << std::endl;
-		std::cout << "Gracz A: " << model.table.player_A->health << std::endl;
-		std::cout << "Gracz B: " << model.table.player_B->health << std::endl;
+	std::cout << "Pozostalo zycia : " << std::endl;
+	std::cout << "Gracz A: " << model.table.player_A->health << std::endl;
+	std::cout << "Gracz B: " << model.table.player_B->health << std::endl;
 
-		std::cout << "Pozostalo many : " << std::endl;
-		std::cout << "Gracz A: " << model.table.player_A->mana << std::endl;
-		std::cout << "Gracz B: " << model.table.player_B->mana << std::endl;
+	std::cout << "Pozostalo many : " << std::endl;
+	std::cout << "Gracz A: " << model.table.player_A->mana << std::endl;
+	std::cout << "Gracz B: " << model.table.player_B->mana << std::endl;
 
-		std::cout << "Dalej? t/n" << std::endl;
-		std::cin >> c;
+	std::cout<< "Karty na stole graczy: "<<std::endl;
+	for(unsigned int i=0; i<max_on_table;i++){
+		
+		if(model.mockup.cards_on_table_player_A[i].id_of_card!=0){
+			std::cout<<"Player_A: ";
+			std::cout<<model.mockup.cards_on_table_player_A[i].id_of_card<<std::endl;
+		}
+		
+		if(model.mockup.cards_on_table_player_B[i].id_of_card!=0){
+			std::cout<<"Player_B: ";
+			std::cout<<model.mockup.cards_on_table_player_B[i].id_of_card<<std::endl;
+		}
+	}
+	
+	std::cout<< "Karty w rekach graczy: "<<std::endl;
+	for(unsigned int i=0; i<max_on_table;i++){
+		
+		if(model.mockup.cards_in_hand_player_A[i].id_of_card!=0){
+			std::cout<<"Player_A: ";
+			std::cout<<model.mockup.cards_in_hand_player_A[i].id_of_card<<std::endl;
+		}
+		
+		if(model.mockup.cards_in_hand_player_B[i].id_of_card!=0){
+			std::cout<<"Player_B: ";
+			std::cout<<model.mockup.cards_in_hand_player_B[i].id_of_card<<std::endl;
+		}
+	}
+	
+	std::cout << "Dalej? t/n" << std::endl;
+	std::cin >> c;
 };
 
-/*
-	int i;
-	char c = 'a';
-	while (c != 'n'){
-
-		std::cout << "Gracz nr 1 rozgrywa ture" << std::endl;
-		std::cout << "Wybierz karte (0-2), ktora chcesz wylozyc na stol." << std::endl;
-		std::cin >> i;
-		//get cart on table
-		table.throwCard(*player_1, i);
-
-		//take new cart
-		player_1->getCard();
-
-		std::cout << "Ktora karte, ze stolu chcesz aktywowac? " << std::endl;
-		for (int i = 0; i < table.cards_on_table.size(); i++)
-			std::cout << "Karta nr. " << i << ": " << table.cards_on_table.at(i)->type_of_card << std::endl;
-		//we must activate cart if we want to make effect
-		std::cin >> i;
-
-		if (table.cards_on_table.at(i)->type_of_card == MONSTER)
-			table.activateCard(i);
-
-
-		model.table.cards_on_table = table.cards_on_table;
-
-		model.update(*player_1);
-
-		table.cards_on_table = model.table.cards_on_table;
-
-		std::cout << "Gracz nr 2 rozgrywa ture" << std::endl;
-		std::cout << "Wybierz karte (0-2), ktora chcesz wylozyc na stol." << std::endl;
-		std::cin >> i;
-
-		//get cart on table
-		table.throwCard(*player_2, i);
-
-		//take new cart
-		player_2->getCard();
-
-
-		std::cout << "Ktora karte, ze stolu chcesz aktywowac? " << std::endl;
-		for (int i = 0; i < table.cards_on_table.size(); i++)
-			std::cout << "Karta nr. " << i << ": " << table.cards_on_table.at(i)->type_of_card << std::endl;
-		//we must activate cart if we want to make effect
-		std::cin >> i;
-
-		if (table.cards_on_table.at(i)->type_of_card == MONSTER)
-			table.activateCard(i);
-
-
-		model.table.cards_on_table = table.cards_on_table;
-
-		//update model
-		model.update(*player_2);
-		table.cards_on_table = model.table.cards_on_table;
-
-		table.player_1 = player_1;
-		table.player_2 = player_2;
-
-		std::cout << "Pozostalo zycia : " << std::endl;
-		std::cout << "Gracz 1: " << model.table.player_1->health << std::endl;
-		std::cout << "Gracz 2: " << model.table.player_2->health << std::endl;
-
-		std::cout << "Pozostalo many : " << std::endl;
-		std::cout << "Gracz 1: " << model.table.player_1->mana << std::endl;
-		std::cout << "Gracz 2: " << model.table.player_2->mana << std::endl;
-
-		std::cout << "Dalej? t/n" << std::endl;
-		std::cin >> c;
-
-	};
-	*/
 	return 0;
 }

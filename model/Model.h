@@ -9,13 +9,6 @@
 #include "SpellCard.h"
 #include "Mockup.h"
 
-//STan tury
-enum PlayersMove{
-	THROW_CARD_ON_TABLE,
-	ATTACK,
-	GET_CARD,
-	END_OF_TOUR	
-};
 
 
 class Model{
@@ -26,7 +19,10 @@ public:
 	void update(Player&);
 
 	Model(std::string, std::string);
-	
+	bool saveData(Mockup&, Table&);
+
+	StateOfTour changed_state_tour;
+	StateOfGame changed_state_game;
 };
 
 #endif

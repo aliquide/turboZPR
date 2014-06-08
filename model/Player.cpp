@@ -1,5 +1,6 @@
 #include "Player.h"
-
+#include <cstdio>
+#include <iostream>
 
 Player::Player(){
 	
@@ -10,8 +11,9 @@ Player::Player(){
 void Player::getCard(){
 	
 	Card* card_temp = new (Card);
-	card_temp = deck.back();
-	cards_in_hand.push_back(card_temp);
-	deck.pop_back();
+	card_temp = this->deck.back();
+	std::cout<<"w getcard: "<<card_temp->id_of_card<<std::endl;
+	this->cards_in_hand.push_back(card_temp);
+	this->deck.pop_back();
 	
 };

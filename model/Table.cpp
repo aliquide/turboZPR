@@ -69,7 +69,7 @@ void Table::create(std::string player_A_id, std::string player_B_id){
 	player_B->player_id= player_B_id;
 	
 	//for example we create same deck for each player with 10 spell carts and 10 ally carts
-	for (int i = 0; i < 20; i++){
+	for (int i = 0; i < 40; i++){
 		
 		player_A->deck.push_back(factory.createCard(SPELL));
 		player_A->deck.at(i)->id_of_card = 200+i;
@@ -80,11 +80,11 @@ void Table::create(std::string player_A_id, std::string player_B_id){
 
 		i--;
 		player_B->deck.push_back(factory.createCard(SPELL));
-		player_B->deck.at(i)->id_of_card = 200+i;
+		player_B->deck.at(i)->id_of_card = 200+i+1;
 		
 		i++;
 		player_B->deck.push_back(factory.createCard(MONSTER));
-		player_B->deck.at(i)->id_of_card = i;
+		player_B->deck.at(i)->id_of_card = i+1;
 		
 	}
 
@@ -104,3 +104,41 @@ Table::Table(){
 	player_A = new (Player);
 	player_B = new (Player);
 }
+
+
+void Table::attack(Player& player, int id_card){
+	
+	Card* card = new (Card);;
+	int position;
+
+	for(unsigned int i=0; i< player.cards_on_table.size(); i++)
+		if (id_card == player.cards_on_table.at(i)->id_of_card){
+			card = player.cards_on_table.at(i);
+			position = i;
+	}
+		
+	player.mana -= card->cost_of_mana;
+
+
+	if (&player == player_A){
+		player_B->health += card->interaction;
+	}
+	else
+	{
+		player_A->health += card->interaction;
+	}
+	
+	
+
+		if (card->type_of_card == MONSTER){
+			AllyCard* acard = dynamic_cast<AllyCard*>(card);
+				if (acard->health <= 0)
+					player.cards_on_table.erase(player.cards_on_table.begin()+position);
+
+			
+		}
+		else if (card->type_of_card == SPELL){ //if type of SPELL
+			player.cards_on_table.erase(player.cards_on_table.begin()+position);
+		}
+	
+};
