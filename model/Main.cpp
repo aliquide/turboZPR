@@ -12,7 +12,7 @@
 #include "Model.h"
 #include "Communication.h"
 #include "Mockup.h"
-
+#include "Controller.h"
 
 int main(){
 /*
@@ -54,34 +54,33 @@ int main(){
 
 	//create table
 	
-//TO jest w kontrolerze +co w starcie gry sie dzieje co na zakonczenie, opakowac w kontroler,
+//co na zakonczenie, opakowac w kontroler,
 //dodanie celu
 //
-
-	std::string player_id_A="playerA", player_id_B="playerB";
-	
+	Controller controller;
 	Communication communication;
+	Mockup mockup;
+	
+	communication.id_player_A= "playerA";
+	communication.id_player_B= "playerB";
 
-	Model model(player_id_A, player_id_B);
+//tworzenie talii kart itp
+	controller.startGame(communication);
+	
+	//na potrzeby testowania
 	std::cout<<"Karty w talii gracza A:  ";
-	for (unsigned int i = 0; i < model.table.player_A->deck.size(); i++) {
-		std::cout<<" "<< model.table.player_A->deck.at(i)->id_of_card << " typu: "<< model.table.player_A->deck.at(i)->type_of_card<<";";
+	for (unsigned int i = 0; i < controller.model.table.player_A->deck.size(); i++) {
+		std::cout<<" "<< controller.model.table.player_A->deck.at(i)->id_of_card << " typu: "<< controller.model.table.player_A->deck.at(i)->type_of_card<<";";
 	}
 	std::cout<<std::endl;
 	std::cout<<"Karty w talii gracza B:  ";
-	for (unsigned int i = 0; i < model.table.player_B->deck.size(); i++) {
-		std::cout<<" "<< model.table.player_B->deck.at(i)->id_of_card << " typu: "<< model.table.player_B->deck.at(i)->type_of_card<<";";
+	for (unsigned int i = 0; i < controller.model.table.player_B->deck.size(); i++) {
+		std::cout<<" "<< controller.model.table.player_B->deck.at(i)->id_of_card << " typu: "<< controller.model.table.player_B->deck.at(i)->type_of_card<<";";
 	}
 	std::cout<<std::endl;
-	communication.kind_of_move = THROW_CARD_ON_TABLE;
 	
-	Player *actual_player;
-	
-	communication.actual_state_of_tour = TOUR_PLAYER_A;
-	
+	//zmienna do testow
 	int state;
-
-	communication.id_card=200;
 	
 	char c = 'a';
 	
@@ -98,20 +97,14 @@ while (c!= 'n'){
 		communication.actual_state_of_tour = TOUR_PLAYER_B;
 	}
 	
-	//interpretujemy czyja tura teraz jest
-	if(communication.actual_state_of_tour == TOUR_PLAYER_A){
-		actual_player = model.table.player_A;
-		model.changed_state_tour = TOUR_PLAYER_A;
-	}
-	else if (communication.actual_state_of_tour == TOUR_PLAYER_B){
-		actual_player = model.table.player_B;
-		model.changed_state_tour = TOUR_PLAYER_B;
-	}
-	
+	//okreslamy czyja tura, ktory gracz
+	controller.readCommunication(communication);
+
+//na potrzeby testowania, to bedziemy zczytywac z komunikatu	
 	std::cout<<"Co chcesz zrobic (0 - throw card on table; 1 - attack; 2 - get card from deck) ?"<<std::endl;
 	std::cin>>state;
 	
-	//na potrzeby testowania, to bedziemy zczytywac z komunikatu
+
 	switch (state){
 		case 0:
 		communication.kind_of_move = THROW_CARD_ON_TABLE;
@@ -125,80 +118,60 @@ while (c!= 'n'){
 		communication.kind_of_move = GET_CARD;
 	}
 	
-	//na potrzeby testowania
+//na potrzeby testowania
 if(communication.kind_of_move != GET_CARD){
 	std::cout<<"Twoje karty na stole (id_card): " << std::endl;
-	for(unsigned int i=0; i< actual_player->cards_on_table.size(); i++){
-		std::cout<<actual_player->cards_on_table.at(i)->id_of_card<<std::endl;
+	for(unsigned int i=0; i< controller.actual_player->cards_on_table.size(); i++){
+		std::cout<<controller.actual_player->cards_on_table.at(i)->id_of_card<<std::endl;
 	}
 	
 	std::cout<<"Twoje karty w reku (id_card): " << std::endl;
-	for(unsigned int i=0; i< actual_player->cards_in_hand.size(); i++){
-		std::cout<<actual_player->cards_in_hand.at(i)->id_of_card<<std::endl;
+	for(unsigned int i=0; i< controller.actual_player->cards_in_hand.size(); i++){
+		std::cout<<controller.actual_player->cards_in_hand.at(i)->id_of_card<<std::endl;
 	}
 	
 	std::cout<<"Ktora karta chcesz GRAC" <<std::endl;
 	std::cin>>state;
 }	
-	
-	
-//sensowne dla kontrolera
-switch ( communication.kind_of_move ){
-	
-	case THROW_CARD_ON_TABLE:
-	model.table.throwCard(*actual_player, state);
-	model.saveData(model.mockup,model.table);
-	break;
-	
-	case ATTACK:
-	model.table.attack(*actual_player,state);
-	model.saveData(model.mockup,model.table);
-	break;
-	
-	case GET_CARD:
-	actual_player->getCard();
-	model.saveData(model.mockup,model.table);
-	break;
-	
-	default:
-	model.saveData(model.mockup,model.table);
-	;
-};
+	communication.id_card = state;
+		
+//wykonujemy odpowiedni ruch
+	mockup = controller.makeMove(communication);
 
 //na potrzeby testowania
 	std::cout << "Pozostalo zycia : " << std::endl;
-	std::cout << "Gracz A: " << model.table.player_A->health << std::endl;
-	std::cout << "Gracz B: " << model.table.player_B->health << std::endl;
+	std::cout << "Gracz A: " << controller.model.table.player_A->health << std::endl;
+	std::cout << "Gracz B: " << controller.model.table.player_B->health << std::endl;
 
 	std::cout << "Pozostalo many : " << std::endl;
-	std::cout << "Gracz A: " << model.table.player_A->mana << std::endl;
-	std::cout << "Gracz B: " << model.table.player_B->mana << std::endl;
+	std::cout << "Gracz A: " << controller.model.table.player_A->mana << std::endl;
+	std::cout << "Gracz B: " << controller.model.table.player_B->mana << std::endl;
 
 	std::cout<< "Karty na stole graczy: "<<std::endl;
 	for(unsigned int i=0; i<max_on_table;i++){
 		
-		if(model.mockup.cards_on_table_player_A[i].id_of_card!=0){
+		if(mockup.cards_on_table_player_A[i].id_of_card!=0){
 			std::cout<<"Player_A: ";
-			std::cout<<model.mockup.cards_on_table_player_A[i].id_of_card<<std::endl;
+			std::cout<<mockup.cards_on_table_player_A[i].id_of_card<<std::endl;
 		}
 		
-		if(model.mockup.cards_on_table_player_B[i].id_of_card!=0){
+		if(mockup.cards_on_table_player_B[i].id_of_card!=0){
 			std::cout<<"Player_B: ";
-			std::cout<<model.mockup.cards_on_table_player_B[i].id_of_card<<std::endl;
+			std::cout<<mockup.cards_on_table_player_B[i].id_of_card<<std::endl;
 		}
 	}
 	
 	std::cout<< "Karty w rekach graczy: "<<std::endl;
 	for(unsigned int i=0; i<max_on_table;i++){
 		
-		if(model.mockup.cards_in_hand_player_A[i].id_of_card!=0){
+		if(mockup.cards_in_hand_player_A[i].id_of_card!=0){
 			std::cout<<"Player_A: ";
-			std::cout<<model.mockup.cards_in_hand_player_A[i].id_of_card<<std::endl;
+			std::cout<<mockup.cards_in_hand_player_A[i].id_of_card<<std::endl;
 		}
 		
-		if(model.mockup.cards_in_hand_player_B[i].id_of_card!=0){
+		if(mockup.cards_in_hand_player_B[i].id_of_card!=0){
 			std::cout<<"Player_B: ";
-			std::cout<<model.mockup.cards_in_hand_player_B[i].id_of_card<<std::endl;
+			std::cout<<mockup.cards_in_hand_player_B[i].id_of_card<<std::endl;
 		}
 	}
 	

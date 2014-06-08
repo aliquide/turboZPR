@@ -18,6 +18,7 @@ public:
 
 	void update(Player&);
 
+	Model();
 	Model(std::string, std::string);
 	bool saveData(Mockup&, Table&);
 

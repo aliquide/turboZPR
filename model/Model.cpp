@@ -40,6 +40,10 @@ Model::Model(std::string id_player_a, std::string id_player_b){
 	this->saveData(mockup,table);
 };
 
+
+Model::Model(){
+	
+};
 //zmienic zeby w pierwsze wolne miejsce wkladalo karte ktora sie rozni, sprawdza co sie zmienilo
 //chyba bedzie bezargumentowa
 bool Model::saveData(Mockup& mockup, Table& table){
