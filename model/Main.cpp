@@ -90,24 +90,28 @@ while (c!= 'n'){
 	std::cout << "Ktory gracz ma ruch (0 - player A; 1 - player B)?"<<std::endl;
 	std::cin >> state;
 	
+	//tylko na potrzeby testowania
 	if(state == 0){
 		communication.actual_state_of_tour = TOUR_PLAYER_A;
-		model.changed_state_tour = TOUR_PLAYER_A;
 	}
 	else{
 		communication.actual_state_of_tour = TOUR_PLAYER_B;
-		model.changed_state_tour = TOUR_PLAYER_B;
 	}
 	
-	if(communication.actual_state_of_tour == TOUR_PLAYER_A)
+	//interpretujemy czyja tura teraz jest
+	if(communication.actual_state_of_tour == TOUR_PLAYER_A){
 		actual_player = model.table.player_A;
-	else if (communication.actual_state_of_tour == TOUR_PLAYER_B)
+		model.changed_state_tour = TOUR_PLAYER_A;
+	}
+	else if (communication.actual_state_of_tour == TOUR_PLAYER_B){
 		actual_player = model.table.player_B;
-
+		model.changed_state_tour = TOUR_PLAYER_B;
+	}
 	
 	std::cout<<"Co chcesz zrobic (0 - throw card on table; 1 - attack; 2 - get card from deck) ?"<<std::endl;
 	std::cin>>state;
 	
+	//na potrzeby testowania, to bedziemy zczytywac z komunikatu
 	switch (state){
 		case 0:
 		communication.kind_of_move = THROW_CARD_ON_TABLE;
@@ -119,9 +123,9 @@ while (c!= 'n'){
 		
 		case 2:
 		communication.kind_of_move = GET_CARD;
-		
 	}
 	
+	//na potrzeby testowania
 if(communication.kind_of_move != GET_CARD){
 	std::cout<<"Twoje karty na stole (id_card): " << std::endl;
 	for(unsigned int i=0; i< actual_player->cards_on_table.size(); i++){
@@ -138,7 +142,7 @@ if(communication.kind_of_move != GET_CARD){
 }	
 	
 	
-
+//sensowne dla kontrolera
 switch ( communication.kind_of_move ){
 	
 	case THROW_CARD_ON_TABLE:
@@ -161,6 +165,7 @@ switch ( communication.kind_of_move ){
 	;
 };
 
+//na potrzeby testowania
 	std::cout << "Pozostalo zycia : " << std::endl;
 	std::cout << "Gracz A: " << model.table.player_A->health << std::endl;
 	std::cout << "Gracz B: " << model.table.player_B->health << std::endl;

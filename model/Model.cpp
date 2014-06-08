@@ -1,5 +1,6 @@
 #include "Model.h"
 
+//poki co nie korzystamy z tego
 void Model::update(Player& player){
 
 	for (unsigned int i = 0 ; i < player.cards_on_table.size(); i++){
@@ -37,11 +38,10 @@ Model::Model(std::string id_player_a, std::string id_player_b){
 	this->changed_state_tour= BEGIN_TOUR;
 	this->changed_state_game= GAMESTART_TRUE;
 	this->saveData(mockup,table);
-
-
 };
 
 //zmienic zeby w pierwsze wolne miejsce wkladalo karte ktora sie rozni, sprawdza co sie zmienilo
+//chyba bedzie bezargumentowa
 bool Model::saveData(Mockup& mockup, Table& table){
 /*
 int iterator;

@@ -1,6 +1,7 @@
 #include "Table.h"
 #include "FactoryOfCards.h"
 
+//poki co nie korzystamy z tego
 void Table::useCard(Player& player, int i){
 	
 	
@@ -28,20 +29,29 @@ void Table::useCard(Player& player, int i){
 void Table::throwCard(Player& player, int id_card){
 
 	Card* card = new (Card);
+	int position; //position of card with id_card in vector
 
 	for(unsigned int i=0; i< player.cards_in_hand.size(); i++)
-		if (player.cards_in_hand.at(i)->id_of_card == id_card)
+		if (player.cards_in_hand.at(i)->id_of_card == id_card){
 			card = player.cards_in_hand.at(i);
+			position = i;
+		}
+	//if there was no card with id_card return (the card with this id is not in hand of player
+	if(card->id_of_card == 0) 
+		return;
+	
+	
+	//if there is room for new card we throw it on table and wait for action 
+	if(player.cards_on_table.size() < max_on_table )
+		player.cards_on_table.push_back(card);
+	else
+		return;
 
-	//if card is type of ally or spell we throw it on table and wait for action 
-	player.cards_on_table.push_back(card);
-
-	//we must get it from hand ofc
-	for(unsigned int i=0; i< player.cards_in_hand.size(); i++)
-		if (id_card == player.cards_in_hand.at(i)->id_of_card)
-			player.cards_in_hand.erase(player.cards_in_hand.begin() + i);
+	//we must get it from hand
+	player.cards_in_hand.erase(player.cards_in_hand.begin() + position);
 };
 
+//poki co nie korzystamy z tego
 void Table::activateCard(Player& player, int id_card){ 
 
 	Card* card = new (Card);;
@@ -61,6 +71,7 @@ void Table::activateCard(Player& player, int id_card){
 
 };
 
+//create deck, cards etc with unique ID
 void Table::create(std::string player_A_id, std::string player_B_id){
 
 	FactoryOfCards factory;
@@ -69,7 +80,7 @@ void Table::create(std::string player_A_id, std::string player_B_id){
 	player_B->player_id= player_B_id;
 	
 	//for example we create same deck for each player with 10 spell carts and 10 ally carts
-	for (int i = 0; i < 40; i++){
+	for (int i = 0; i < 20; i++){
 		
 		player_A->deck.push_back(factory.createCard(SPELL));
 		player_A->deck.at(i)->id_of_card = 200+i;
@@ -94,9 +105,6 @@ void Table::create(std::string player_A_id, std::string player_B_id){
 		player_B->getCard();
 	}
 	
-	
-	
-	
 	return;
 };
 
@@ -105,11 +113,11 @@ Table::Table(){
 	player_B = new (Player);
 }
 
-
+//sensowne jezeli zaklecie tez dziala tylko jesli jest klikniete przez gracza a tak to sobie moze lezec a stole
 void Table::attack(Player& player, int id_card){
 	
-	Card* card = new (Card);;
-	int position;
+	Card* card = new (Card);
+	int position; //position od card with id_card in vector
 
 	for(unsigned int i=0; i< player.cards_on_table.size(); i++)
 		if (id_card == player.cards_on_table.at(i)->id_of_card){
@@ -128,17 +136,12 @@ void Table::attack(Player& player, int id_card){
 		player_A->health += card->interaction;
 	}
 	
-	
-
-		if (card->type_of_card == MONSTER){
-			AllyCard* acard = dynamic_cast<AllyCard*>(card);
-				if (acard->health <= 0)
-					player.cards_on_table.erase(player.cards_on_table.begin()+position);
-
-			
+	if (card->type_of_card == MONSTER){
+		AllyCard* acard = dynamic_cast<AllyCard*>(card);
+			if (acard->health <= 0)
+				player.cards_on_table.erase(player.cards_on_table.begin()+position);		
 		}
-		else if (card->type_of_card == SPELL){ //if type of SPELL
-			player.cards_on_table.erase(player.cards_on_table.begin()+position);
-		}
-	
+	else if (card->type_of_card == SPELL){ //if type of SPELL
+		player.cards_on_table.erase(player.cards_on_table.begin()+position);
+	}
 };

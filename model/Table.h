@@ -6,7 +6,7 @@
 #include <boost/shared_ptr.hpp>
 #include "Card.h"
 #include "Player.h"
-
+#include "Mockup.h"
 
 class Table{
 public:
