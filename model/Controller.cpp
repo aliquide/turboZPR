@@ -27,6 +27,9 @@ Mockup Controller::startGame(Communication communication){
 //wykonanie ruchu
 Mockup Controller::makeMove(Communication communication){
 	
+	bool state;
+
+
 	switch ( communication.kind_of_move ){
 		
 		case THROW_CARD_ON_TABLE:
@@ -35,8 +38,18 @@ Mockup Controller::makeMove(Communication communication){
 			break;
 	
 		case ATTACK:
-			model.table.attack(*actual_player,communication.id_card);
-			model.saveData(model.mockup,model.table);
+			state = model.table.attack(*actual_player,communication.id_card);
+
+			//if attack was succesfull we change actual player and send it in new mockup data
+			if(state == 1){
+				if (communication.actual_state_of_tour == TOUR_PLAYER_A)
+					model.changed_state_tour = TOUR_PLAYER_B;
+				else
+					model.changed_state_tour = TOUR_PLAYER_B;
+
+				model.saveData(model.mockup,model.table);
+			}
+			//nothing happen when function attack doesn't work properly
 			break;
 	
 		case GET_CARD:
