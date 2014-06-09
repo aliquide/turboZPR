@@ -1,7 +1,7 @@
 #include "Controller.h"
 #include "Mockup.h"
 
-//w kazdym momencie to trzeba robic :Pzmiana garcza
+//w kazdym momencie to trzeba robic :P zmiana garcza, chyba tutaj nie musimy wysylac makiety
 void Controller::readCommunication(Communication communication){
 	
 	//interpretujemy czyja tura teraz jest
@@ -19,6 +19,10 @@ void Controller::readCommunication(Communication communication){
 //tylko przy starcie gry, nadanie id itp
 Mockup Controller::startGame(Communication communication){
 	Model model(communication.id_player_A, communication.id_player_B);
+	model.changed_state_tour= BEGIN_TOUR;
+	model.changed_state_game= GAMESTART_TRUE;
+	model.saveData(model.mockup,model.table);
+
 	this->model = model;
 	this->actual_player = new (Player);
 	return model.mockup;
@@ -27,44 +31,62 @@ Mockup Controller::startGame(Communication communication){
 //wykonanie ruchu
 Mockup Controller::makeMove(Communication communication){
 	
-	bool state;
+	bool state = 0;
 
+	//if game is running
+	if(communication.actual_state_of_game == RUNNING){
 
-	switch ( communication.kind_of_move ){
+		switch ( communication.kind_of_move ){
 		
-		case THROW_CARD_ON_TABLE:
-			model.table.throwCard(*actual_player, communication.id_card);
-			model.saveData(model.mockup,model.table);
-			break;
+			case THROW_CARD_ON_TABLE:
+				state = model.table.throwCard(*actual_player, communication.id_card);
+
+				//if throwing card was successfull we save it to mockup data
+				if(state == 1)
+					model.saveData(model.mockup,model.table);
+
+				break;
 	
-		case ATTACK:
-			state = model.table.attack(*actual_player,communication.id_card);
+			case ATTACK: //attack end tour of player
+				state = model.table.attack(*actual_player,communication.id_card);
 
-			//if attack was succesfull we change actual player and send it in new mockup data
-			if(state == 1){
-				if (communication.actual_state_of_tour == TOUR_PLAYER_A)
-					model.changed_state_tour = TOUR_PLAYER_B;
-				else
-					model.changed_state_tour = TOUR_PLAYER_B;
+				//if attack was succesfull we change actual player and send it in new mockup data
+				if(state == 1){
+					if (communication.actual_state_of_tour == TOUR_PLAYER_A)
+						model.changed_state_tour = TOUR_PLAYER_B;
+					else
+						model.changed_state_tour = TOUR_PLAYER_A;
 
+					model.changed_move = END_OF_TOUR; //end of tour preview player ?
+
+					model.saveData(model.mockup,model.table);
+				}
+				//nothing happen when function attack doesn't work properly
+
+				break;
+	
+			case GET_CARD:
+				state = actual_player->getCard();
+
+				if(state == 1)
+					model.saveData(model.mockup,model.table);
+
+				break;
+	
+			default:
 				model.saveData(model.mockup,model.table);
-			}
-			//nothing happen when function attack doesn't work properly
-			break;
-	
-		case GET_CARD:
-			actual_player->getCard();
-			model.saveData(model.mockup,model.table);
-			break;
-	
-		default:
-			model.saveData(model.mockup,model.table);
-		
-	};
-	
+		};
+	}
 	return model.mockup;
-	
 };
 	
 //zakonczenie gry, sprzatanie po sobie
-Mockup endGame();
+Mockup Controller::endGame(){
+
+	model.changed_move = END_OF_TOUR;
+	model.changed_state_game= END_OF_GAME;
+	model.saveData(model.mockup,model.table);
+
+	return model.mockup;
+};
+

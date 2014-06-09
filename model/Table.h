@@ -14,7 +14,7 @@ public:
 	Player* player_A, * player_B;
 
 	void useCard(Player&, int);
-	void throwCard(Player&, int);
+	bool throwCard(Player&, int);
 	void activateCard(Player&, int);
 
 	bool attack(Player&, int);

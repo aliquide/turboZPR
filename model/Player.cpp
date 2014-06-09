@@ -7,7 +7,7 @@ Player::Player(){
 	this->health = 2000;
 }
 
-void Player::getCard(){
+bool Player::getCard(){
 	
 	Card* card_temp = new (Card);
 	
@@ -15,7 +15,8 @@ void Player::getCard(){
 		card_temp = this->deck.back();
 		this->cards_in_hand.push_back(card_temp);
 		this->deck.pop_back();
+		return 1;
 	}
 	else
-		return;
+		return 0;
 };

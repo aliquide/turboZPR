@@ -41,6 +41,8 @@ struct Mockup{
 	//ID gracza ktory ma teraz ture
 	std::string id_tour;
 
+	PlayersMove actual_move;
+
 	StateOfTour actual_state_of_tour;
 
 	StateOfGame actual_state_of_game;

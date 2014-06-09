@@ -65,8 +65,13 @@ int main(){
 	communication.id_player_B= "playerB";
 
 //tworzenie talii kart itp
+	std::cout<<"DUPA1"<<std::endl;
 	controller.startGame(communication);
 	
+	//tutaj dostajemy info ze ok sie udalo zaczac gre itp:
+
+	communication.actual_state_of_game = RUNNING;
+
 	//na potrzeby testowania
 	std::cout<<"Karty w talii gracza A:  ";
 	for (unsigned int i = 0; i < controller.model.table.player_A->deck.size(); i++) {

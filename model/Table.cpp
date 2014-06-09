@@ -26,7 +26,7 @@ void Table::useCard(Player& player, int i){
 	
 };
 
-void Table::throwCard(Player& player, int id_card){
+bool Table::throwCard(Player& player, int id_card){
 
 	Card* card = new (Card);
 	int position; //position of card with id_card in vector
@@ -38,17 +38,19 @@ void Table::throwCard(Player& player, int id_card){
 		}
 	//if there was no card with id_card return (the card with this id is not in hand of player
 	if(card->id_of_card == 0) 
-		return;
+		return 0;
 	
 	
 	//if there is room for new card we throw it on table and wait for action 
 	if(player.cards_on_table.size() < max_on_table )
 		player.cards_on_table.push_back(card);
 	else
-		return;
+		return 0;
 
 	//we must get it from hand
 	player.cards_in_hand.erase(player.cards_in_hand.begin() + position);
+
+	return 1; //if everything gone well we return 1
 };
 
 //poki co nie korzystamy z tego

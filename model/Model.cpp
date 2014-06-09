@@ -35,9 +35,7 @@ void Model::update(Player& player){
 Model::Model(std::string id_player_a, std::string id_player_b){
 
 	table.create(id_player_a, id_player_b);
-	this->changed_state_tour= BEGIN_TOUR;
-	this->changed_state_game= GAMESTART_TRUE;
-	this->saveData(mockup,table);
+
 };
 
 
@@ -103,6 +101,8 @@ else{
 	mockup.actual_state_of_tour=this->changed_state_tour;
 
 	mockup.actual_state_of_game=this->changed_state_game;
+
+	mockup.actual_move = this->changed_move;
 
 return 0;
 };

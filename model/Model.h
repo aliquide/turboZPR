@@ -24,6 +24,7 @@ public:
 
 	StateOfTour changed_state_tour;
 	StateOfGame changed_state_game;
+	PlayersMove changed_move;
 };
 
 #endif

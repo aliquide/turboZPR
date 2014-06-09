@@ -40,7 +40,7 @@ public:
 	
 	Player();
 	
-	void getCard();
+	bool getCard();
 
 };
 
