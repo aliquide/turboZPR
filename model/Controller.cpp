@@ -13,7 +13,7 @@ void Controller::readCommunication(Communication communication){
 		actual_player = model.table.player_B;
 		model.changed_state_tour = TOUR_PLAYER_B;
 	}
-	
+
 }
 
 //tylko przy starcie gry, nadanie id itp
@@ -21,7 +21,7 @@ Mockup Controller::startGame(Communication communication){
 	Model model(communication.id_player_A, communication.id_player_B);
 	model.changed_state_tour= BEGIN_TOUR;
 	model.changed_state_game= GAMESTART_TRUE;
-	model.saveData(model.mockup,model.table);
+	model.saveData();
 
 	this->model = model;
 	this->actual_player = new (Player);
@@ -43,12 +43,12 @@ Mockup Controller::makeMove(Communication communication){
 
 				//if throwing card was successfull we save it to mockup data
 				if(state == 1)
-					model.saveData(model.mockup,model.table);
+					model.saveData();
 
 				break;
 	
 			case ATTACK: //attack end tour of player
-				state = model.table.attack(*actual_player,communication.id_card);
+				state = model.table.attack(*actual_player,communication.id_card, communication.id_of_aim);
 
 				//if attack was succesfull we change actual player and send it in new mockup data
 				if(state == 1){
@@ -59,7 +59,7 @@ Mockup Controller::makeMove(Communication communication){
 
 					model.changed_move = END_OF_TOUR; //end of tour preview player ?
 
-					model.saveData(model.mockup,model.table);
+					model.saveData();
 				}
 				//nothing happen when function attack doesn't work properly
 
@@ -69,12 +69,12 @@ Mockup Controller::makeMove(Communication communication){
 				state = actual_player->getCard();
 
 				if(state == 1)
-					model.saveData(model.mockup,model.table);
+					model.saveData();
 
 				break;
 	
 			default:
-				model.saveData(model.mockup,model.table);
+				model.saveData();
 		};
 	}
 	return model.mockup;
@@ -85,7 +85,7 @@ Mockup Controller::endGame(){
 
 	model.changed_move = END_OF_TOUR;
 	model.changed_state_game= END_OF_GAME;
-	model.saveData(model.mockup,model.table);
+	model.saveData();
 
 	return model.mockup;
 };

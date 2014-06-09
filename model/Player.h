@@ -24,7 +24,8 @@ class Player{
 public:
 	int mana;
 	int health;
-	std::string player_id;
+
+	int player_id;
 
 	Character type_;
 

@@ -6,12 +6,12 @@
 
 struct Communication{
 	
-	std::string id_player_A;
-	std::string id_player_B;
+	int id_player_A;
+	int id_player_B;
 	
 	PlayersMove kind_of_move;
 	
-	std::string id_tour;
+	//std::string id_tour;
 	
 	StateOfTour actual_state_of_tour;
 	

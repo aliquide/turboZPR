@@ -10,15 +10,16 @@
 
 class Table{
 public:
-	
+	//dodac destruktory i kosntruktory odpowiednie
 	Player* player_A, * player_B;
 
-	void useCard(Player&, int);
-	bool throwCard(Player&, int);
-	void activateCard(Player&, int);
+	void useCard(Player&, int);//nie uzywanya
 
-	bool attack(Player&, int);
-	void create(std::string, std::string);
+	bool throwCard(Player&, int);
+	void activateCard(Player&, int);//nie uzywanya
+
+	bool attack(Player&, int,int);
+	void create(int, int);
 	
 
 	

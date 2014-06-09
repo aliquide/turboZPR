@@ -19,8 +19,8 @@ public:
 	void update(Player&);
 
 	Model();
-	Model(std::string, std::string);
-	bool saveData(Mockup&, Table&);
+	Model(int, int);
+	bool saveData();
 
 	StateOfTour changed_state_tour;
 	StateOfGame changed_state_game;

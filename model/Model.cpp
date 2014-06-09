@@ -28,11 +28,11 @@ void Model::update(Player& player){
 			player.cards_on_table.erase(player.cards_on_table.begin() + i);
 		}
 	}
-	saveData(mockup, table);
+
 };
 
 
-Model::Model(std::string id_player_a, std::string id_player_b){
+Model::Model(int id_player_a, int id_player_b){
 
 	table.create(id_player_a, id_player_b);
 
@@ -42,26 +42,9 @@ Model::Model(std::string id_player_a, std::string id_player_b){
 Model::Model(){
 	
 };
-//zmienic zeby w pierwsze wolne miejsce wkladalo karte ktora sie rozni, sprawdza co sie zmienilo
-//chyba bedzie bezargumentowa
-bool Model::saveData(Mockup& mockup, Table& table){
-/*
-int iterator;
 
-for(unsigned int i=0; i<table.player_A->cards_on_table.size(); i++){
-	for(unsigned int j=0; j< max_on_table; j++){
-		if(table.player_A->cards_on_table.at(i)->id_of_card == mockup.cards_on_table_player_A[j]
-			i++;
-		else 
-			if(j != max_on_table-1)
-				j++;
-			else{
-				for(unsigned int k=0; k< max_on_table; k++)
-				
-			}
-	}
-}
-*/
+
+bool Model::saveData(){
 
 for (unsigned int i=0; i<max_on_table; i++){
 	if (this->changed_state_tour == TOUR_PLAYER_A)

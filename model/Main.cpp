@@ -61,11 +61,11 @@ int main(){
 	Communication communication;
 	Mockup mockup;
 	
-	communication.id_player_A= "playerA";
-	communication.id_player_B= "playerB";
+	communication.id_player_A= 1001;
+	communication.id_player_B= 1002;
 
 //tworzenie talii kart itp
-	std::cout<<"DUPA1"<<std::endl;
+
 	controller.startGame(communication);
 	
 	//tutaj dostajemy info ze ok sie udalo zaczac gre itp:
@@ -97,9 +97,11 @@ while (c!= 'n'){
 	//tylko na potrzeby testowania
 	if(state == 0){
 		communication.actual_state_of_tour = TOUR_PLAYER_A;
+		communication.id_of_aim = controller.model.table.player_B->player_id;
 	}
 	else{
 		communication.actual_state_of_tour = TOUR_PLAYER_B;
+		communication.id_of_aim = controller.model.table.player_A->player_id;
 	}
 	
 	//okreslamy czyja tura, ktory gracz
