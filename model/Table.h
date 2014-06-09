@@ -17,7 +17,7 @@ public:
 	void throwCard(Player&, int);
 	void activateCard(Player&, int);
 
-	void attack(Player&, int);
+	bool attack(Player&, int);
 	void create(std::string, std::string);
 	
 

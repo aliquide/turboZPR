@@ -114,7 +114,8 @@ Table::Table(){
 }
 
 //sensowne jezeli zaklecie tez dziala tylko jesli jest klikniete przez gracza a tak to sobie moze lezec a stole
-void Table::attack(Player& player, int id_card){
+//dodac cel ataku i przerzucenie tury gracza
+bool Table::attack(Player& player, int id_card){
 	
 	Card* card = new (Card);
 	int position; //position od card with id_card in vector
@@ -124,10 +125,14 @@ void Table::attack(Player& player, int id_card){
 			card = player.cards_on_table.at(i);
 			position = i;
 	}
-		
+
+	//if there was no card with id_card return (the card with this id is not on table)
+	if(card->id_of_card == 0)
+		return 0; //return 0 if function doesn't work properly
+
 	player.mana -= card->cost_of_mana;
 
-
+	//tutaj DODANIE CELU ATAKU
 	if (&player == player_A){
 		player_B->health += card->interaction;
 	}
@@ -144,4 +149,7 @@ void Table::attack(Player& player, int id_card){
 	else if (card->type_of_card == SPELL){ //if type of SPELL
 		player.cards_on_table.erase(player.cards_on_table.begin()+position);
 	}
+
+	return 1; //return 1 when the attack was succesfull
+
 };
