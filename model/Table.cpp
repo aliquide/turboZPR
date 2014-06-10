@@ -85,7 +85,7 @@ Table::~Table(){
 bool Table::attack(Player& player, int id_card, int id_of_aim){
 	
 	Card* card = new (Card);
-	int position = 0; //position of card with id_card in vector
+	int position = -1; //position of card with id_card in vector
 	int position_of_aim = -1; //position of aim if it is a card
 	int flag = 0; //flag which would be helpful
 
@@ -99,11 +99,8 @@ bool Table::attack(Player& player, int id_card, int id_of_aim){
 	}
 
 	//if there was no card with id_card return (the card with this id is not on table)
-	if(card->getIdOfCard() == 0)
+	if(position == -1)
 		return 0; //return 0 if function doesn't work properly
-
-	//every attack cost mana
-	player.setMana(player.getMana() - card->getCostOfMana());
 
 	//we must know which one of player, in our model, is the opponent
 	if (player.getPlayerId() == this->player_A->getPlayerId()){
@@ -151,5 +148,7 @@ bool Table::attack(Player& player, int id_card, int id_of_aim){
 		player.cards_on_table.erase(player.cards_on_table.begin()+position);
 	}
 
+	//every attack cost mana
+	player.setMana(player.getMana() - card->getCostOfMana());
 	return 1; //return 1 when the attack was succesfull
 }

@@ -33,7 +33,7 @@ int main(){
 	//tutaj dostajemy info ze ok sie udalo zaczac gre itp:
 
 	communication.actual_state_of_game = RUNNING;
-	std::cout<<__FILE__ << ":" << __LINE__ <<std::endl;
+	
 	//na potrzeby testowania
 	std::cout<<"Karty w talii gracza A:  ";
 	for (unsigned int i = 0; i < controller.model.table.player_A->deck.size(); i++) {
@@ -68,7 +68,7 @@ while (c!= 'n'){
 
 	//okreslamy czyja tura, ktory gracz
 	controller.readCommunication(communication);
-	std::cout<<__FILE__ << ":" << __LINE__ <<std::endl;
+
 //na potrzeby testowania, to bedziemy zczytywac z komunikatu	
 	std::cout<<"Co chcesz zrobic (0 - throw card on table; 1 - attack; 2 - get card from deck) ?"<<std::endl;
 	std::cin>>state;

@@ -8,6 +8,7 @@
 #include "AllyCard.h"
 #include "SpellCard.h"
 #include "Mockup.h"
+#include "Communication.h"
 
 /**
     \brief Klasa Model odpowiedzialna jest za zarządzanie grą.
@@ -27,6 +28,11 @@ public:
 	PlayersMove changed_move;
 
 	bool saveData();
+	Mockup makeAttack(Player&, Communication);
+	Mockup throwingCard(Player&, Communication);
+	Mockup gettingCard(Player&, Communication);
+	Mockup gettingStart(Communication communication);
+	Mockup endingGame();
 };
 
 #endif

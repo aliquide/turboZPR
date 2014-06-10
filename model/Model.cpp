@@ -15,51 +15,27 @@ Model::Model() {
 /// \return zwraca 1 w przypadku prawidłowego zapisu
 bool Model::saveData() {
 
-	if (this->changed_state_game == GAMESTART_TRUE) {
-		for (unsigned int i = 0; i < max_on_table; i++) {
-			mockup.cards_on_table_player_A[i].setIdOfCard(0);
-			mockup.cards_on_table_player_B[i].setIdOfCard(0);
-		}
-		for (unsigned int i = 0; i < max_in_hand; i++) {
-			mockup.cards_in_hand_player_A[i].setIdOfCard(0);
-			mockup.cards_in_hand_player_B[i].setIdOfCard(0);
-		}
-	}
-
 	for (unsigned int i = 0; i < max_on_table; i++) {
-		if (this->changed_state_tour == TOUR_PLAYER_A)
-			mockup.cards_on_table_player_A[i].setIdOfCard(0);
-		else
-			mockup.cards_on_table_player_B[i].setIdOfCard(0);
+		mockup.cards_on_table_player_A[i].setIdOfCard(0);
+		mockup.cards_on_table_player_B[i].setIdOfCard(0);
 	}
-
 	for (unsigned int i = 0; i < max_in_hand; i++) {
-		if (this->changed_state_tour == TOUR_PLAYER_A)
-			mockup.cards_in_hand_player_A[i].setIdOfCard(0);
-		else
-			mockup.cards_in_hand_player_B[i].setIdOfCard(0);
+		mockup.cards_in_hand_player_A[i].setIdOfCard(0);
+		mockup.cards_in_hand_player_B[i].setIdOfCard(0);
 	}
 
-	for (unsigned int i = 0;
-			i < max_in_hand && i < table.player_A->cards_in_hand.size(); i++) {
+	for (unsigned int i = 0; i < max_in_hand && i < table.player_A->cards_in_hand.size(); i++) {
 		mockup.cards_in_hand_player_A[i] = *table.player_A->cards_in_hand.at(i);
 	}
-	for (unsigned int i = 0;
-			i < max_on_table && i < table.player_A->cards_on_table.size();
-			i++) {
-		mockup.cards_on_table_player_A[i] = *table.player_A->cards_on_table.at(
-				i);
+	for (unsigned int i = 0; i < max_on_table && i < table.player_A->cards_on_table.size(); i++) {
+		mockup.cards_on_table_player_A[i] = *table.player_A->cards_on_table.at(i);
 	}
 
-	for (unsigned int i = 0;
-			i < max_on_table && i < table.player_B->cards_on_table.size();
-			i++) {
-		mockup.cards_on_table_player_B[i] = *table.player_B->cards_on_table.at(
-				i);
+	for (unsigned int i = 0; i < max_on_table && i < table.player_B->cards_on_table.size(); i++) {
+		mockup.cards_on_table_player_B[i] = *table.player_B->cards_on_table.at(i);
 	}
 
-	for (unsigned int i = 0;
-			i < max_in_hand && i < table.player_B->cards_in_hand.size(); i++) {
+	for (unsigned int i = 0; i < max_in_hand && i < table.player_B->cards_in_hand.size(); i++) {
 		mockup.cards_in_hand_player_B[i] = *table.player_B->cards_in_hand.at(i);
 	}
 
@@ -72,3 +48,74 @@ bool Model::saveData() {
 	return 1;
 }
 
+/// \brief Funkcja makeAttack odpowiedzialna za przeprowadzenie ataku
+/// \return zwraca zaktualizowana makiete danych
+Mockup Model::makeAttack(Player& actual_player, Communication communication){
+	
+	bool state = 0;
+	
+	state = table.attack(actual_player, communication.id_card, communication.id_of_aim);
+
+	//if attack was successful we change actual player and send it in new mockup data
+	if (state == 1) {
+		if (communication.actual_state_of_tour == TOUR_PLAYER_A)
+			changed_state_tour = TOUR_PLAYER_B;
+		else
+			changed_state_tour = TOUR_PLAYER_A;
+
+		changed_move = END_OF_TOUR; //end of tour preview player
+		saveData();
+	}
+	//nothing happen when function attack doesn't work properly
+	return mockup;
+}
+
+/// \brief Funkcja throwingCard odpowiedzialna za rzucanie karty na stół
+/// \return zwraca zaktualizowana makiete danych
+Mockup Model::throwingCard(Player& actual_player, Communication communication){
+	
+	bool state = 0;
+	
+	state = table.throwCard(actual_player, communication.id_card);
+
+	//if throwing card was successful we save it to mockup data
+	if (state == 1)
+		saveData();
+
+	return mockup;
+}
+
+/// \brief Funkcja gettingCard odpowiedzialna za dobieranie kart do ręki
+/// \return zwraca zaktualizowana makiete danych
+Mockup Model::gettingCard(Player& actual_player, Communication communication){
+	
+	bool state = 0;
+	
+	state = actual_player.getCard();
+	if (state == 1)
+		saveData();
+		
+	return mockup;
+}
+
+/// \brief Funkcja gettingStart odpowiedzialna za nadanie odpowiednich stanów gry na jej początku
+/// \return zwraca zaktualizowana makiete danych
+Mockup Model::gettingStart(Communication communication){
+	
+	changed_state_game = GAMESTART_TRUE;
+	changed_move = BEGIN;
+	changed_state_tour = TOUR_PLAYER_A;
+	saveData();
+	
+	return this->mockup;
+}
+
+/// \brief Funkcja endingGame odpowiedzialna za nadanie odpowiednich stanów gry na jej końcu
+/// \return zwraca zaktualizowana makiete danych
+Mockup Model::endingGame(){
+	changed_move = END_OF_TOUR;
+	changed_state_game = END_OF_GAME;
+	saveData();
+	
+	return mockup;
+}

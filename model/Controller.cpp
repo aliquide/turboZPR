@@ -21,24 +21,24 @@ void Controller::readCommunication(Communication communication) {
 /// \param communication jest komunikatem otrzymywanym z serwera
 /// \return zwraca makietę danych, przesyłaną do serwera w celu powiadomienia o rozpoczątej rozgrywce
 Mockup Controller::startGame(Communication communication) {
-
+	
+	Mockup mockup;
 	Model model(communication.id_player_A, communication.id_player_B);
-	model.changed_state_game = GAMESTART_TRUE;
-	model.changed_move = BEGIN;
-	model.changed_state_tour = TOUR_PLAYER_A;
-	model.saveData();
+	
+	mockup = model.gettingStart(communication);
+	
 	this->model = model;
 	this->actual_player = boost::shared_ptr<Player>(new Player);
 
-	return model.mockup;
+	return mockup;
 }
-;
 
 /// \brief Funkcja makeMove odpowiedzialna jest za przeprowadzenie odpowiedniej akcji.
 /// \param communication jest komunikatem otrzymywanym z serwera
 /// \return zwraca makietę danych, przesyłaną do serwera w celu powiadomienia o zmianach dokonanych podczas rozgrywki
 Mockup Controller::makeMove(Communication communication) {
 
+	Mockup mockup;
 	bool state = 0; //helpful variable which would be needed to check state of actual action
 
 	//if game is running
@@ -47,70 +47,47 @@ Mockup Controller::makeMove(Communication communication) {
 		switch (communication.kind_of_move) {
 
 		case THROW_CARD_ON_TABLE:
-			state = model.table.throwCard(*actual_player,
-					communication.id_card);
-
-			//if throwing card was successful we save it to mockup data
-			if (state == 1)
-				model.saveData();
-
+			mockup = model.throwingCard(*actual_player, communication);
 			break;
 
 		case ATTACK: //attack end tour of player
-			state = model.table.attack(*actual_player, communication.id_card,
-					communication.id_of_aim);
-
-			//if attack was successful we change actual player and send it in new mockup data
-			if (state == 1) {
-				if (communication.actual_state_of_tour == TOUR_PLAYER_A)
-					model.changed_state_tour = TOUR_PLAYER_B;
-				else
-					model.changed_state_tour = TOUR_PLAYER_A;
-
-				model.changed_move = END_OF_TOUR; //end of tour preview player
-				model.saveData();
-			}
-			//nothing happen when function attack doesn't work properly
+			mockup = model.makeAttack(*actual_player, communication);
 			break;
 
 		case GET_CARD: //get Card from deck to hand
-			state = actual_player->getCard();
-			if (state == 1)
-				model.saveData();
+			mockup = model.gettingCard(*actual_player, communication);
 			break;
 
 		default:
-			model.saveData();
+			break;
 		};
 	}
-	return model.mockup;
+	return mockup;
 }
-;
 
 /// \brief Funkcja endGame odpowiedzialna jest za konczenie gry.
 /// \return zwraca makietę danych, przesyłaną do serwera w celu powiadomienia o zmianach i zakończeniu gry.
 Mockup Controller::endGame() {
-
-	model.changed_move = END_OF_TOUR;
-	model.changed_state_game = END_OF_GAME;
-	model.saveData();
-
-	return model.mockup;
+	Mockup mockup;
+	mockup = model.endingGame();
+	return mockup;
 }
-;
 
 /// \brief Funkcja update wywoluje pozostale metody w odpowiednich stanach gry
 /// \param communication jest komunikatem otrzymywanym z serwera
 /// \return zwraca makietę danych, przesyłaną do serwera w celu powiadomienia o zmianach
 Mockup Controller::update(Communication communication) {
 	Mockup mockup;
+	
 	switch (communication.actual_state_of_game) {
 
 	case GAMESTART_TRUE:
 		mockup = startGame(communication);
+		readCommunication(communication);
 		break;
 
 	case RUNNING:
+		readCommunication(communication);
 		mockup = makeMove(communication);
 		break;
 
