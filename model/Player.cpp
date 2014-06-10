@@ -20,3 +20,27 @@ bool Player::getCard(){
 	else
 		return 0;
 };
+
+int Player::getPlayerId(){
+	return this->player_id;
+};
+
+int Player::getHealth(){
+	return this->health;
+};
+
+int Player::getMana(){
+	return this->mana;
+};
+
+void Player::setPlayerId(int new_id){
+	this->player_id = new_id;
+}
+
+void Player::setMana(int new_mana){
+	this->mana = new_mana;
+}
+
+void Player::setHealth(int new_health){
+	this->health = new_health;
+}

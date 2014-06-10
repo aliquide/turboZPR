@@ -10,19 +10,13 @@
 
 class Table{
 public:
-	//dodac destruktory i kosntruktory odpowiednie
+	//dodac destruktory i konstruktory odpowiednie
 	Player* player_A, * player_B;
 
-	void useCard(Player&, int);//nie uzywanya
-
 	bool throwCard(Player&, int);
-	void activateCard(Player&, int);//nie uzywanya
-
 	bool attack(Player&, int,int);
 	void create(int, int);
-	
 
-	
 //protected:
 	Table();
 

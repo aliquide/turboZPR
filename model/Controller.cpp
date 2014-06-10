@@ -1,5 +1,6 @@
 #include "Controller.h"
 #include "Mockup.h"
+#include <ctime>
 
 //w kazdym momencie to trzeba robic :P zmiana garcza, chyba tutaj nie musimy wysylac makiety
 void Controller::readCommunication(Communication communication){
@@ -18,13 +19,18 @@ void Controller::readCommunication(Communication communication){
 
 //tylko przy starcie gry, nadanie id itp
 Mockup Controller::startGame(Communication communication){
+
 	Model model(communication.id_player_A, communication.id_player_B);
-	model.changed_state_tour= BEGIN_TOUR;
+
+	model.table.player_A->setPlayerId(communication.id_player_A);
+	model.table.player_B->setPlayerId(communication.id_player_B);
+
 	model.changed_state_game= GAMESTART_TRUE;
 	model.saveData();
 
 	this->model = model;
 	this->actual_player = new (Player);
+
 	return model.mockup;
 };
 
@@ -58,7 +64,6 @@ Mockup Controller::makeMove(Communication communication){
 						model.changed_state_tour = TOUR_PLAYER_A;
 
 					model.changed_move = END_OF_TOUR; //end of tour preview player ?
-
 					model.saveData();
 				}
 				//nothing happen when function attack doesn't work properly

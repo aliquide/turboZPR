@@ -7,7 +7,7 @@
 
 class FactoryOfCards{
 public:
-	Card* createCard(TypeOfCard);
+	Card* createCard(std::string);
 };
 
 

@@ -8,7 +8,7 @@
 #include "AllyCard.h"
 #include "SpellCard.h"
 #include "Mockup.h"
-
+#include <utility>
 
 
 class Model{

@@ -17,7 +17,6 @@ enum PlayersMove{
 };
 
 enum StateOfTour{
-    BEGIN_TOUR,
 	TOUR_PLAYER_A,
 	TOUR_PLAYER_B,
 };
@@ -29,6 +28,8 @@ enum StateOfGame{
 };
 
 struct Mockup{
+	int id_player_A;
+	int id_player_B;
 
 	Card cards_on_table_player_A[max_on_table];
 	Card cards_on_table_player_B[max_on_table];
@@ -36,15 +37,8 @@ struct Mockup{
 	Card cards_in_hand_player_A[max_in_hand];
 	Card cards_in_hand_player_B[max_in_hand];
 
-	//plus cards in deck
-
-	//ID gracza ktory ma teraz ture
-	std::string id_tour;
-
 	PlayersMove actual_move;
-
 	StateOfTour actual_state_of_tour;
-
 	StateOfGame actual_state_of_game;
 
 	};

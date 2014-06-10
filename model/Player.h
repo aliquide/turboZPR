@@ -22,26 +22,28 @@ enum Character{
 
 class Player{
 public:
-	int mana;
-	int health;
-
-	int player_id;
-
-	Character type_;
-
-	//smart pointers
 	std::vector<Card*> cards_on_table;
 	std::vector<Card*> cards_in_hand;
 	std::vector<Card*> deck;
 	
-	//std::map<int, Card*> cards_on_table;
-	//std::map<int, Card*> cards_in_hand;
-	//std::map<int, Card*> deck;
-	
-	
 	Player();
 	
 	bool getCard();
+	int getPlayerId();
+	int getHealth();
+	int getMana();
+	Character getCharacter();
+
+	void setPlayerId(int);
+	void setHealth(int);
+	void setMana(int);
+	void setCharacter(Character);
+
+protected:
+	int mana;
+	int health;
+	int player_id;
+	Character type_;
 
 };
 

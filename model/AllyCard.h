@@ -5,13 +5,17 @@
 
 class AllyCard: public Card{
 public:
-	int health;
-	bool status;
 
 	const AllyCard& operator=(AllyCard);
 
+	int getHealth();
+	void setHealth(int);
+
 	AllyCard();
 	~AllyCard();
+
+private:
+	int health;
 
 };
 
