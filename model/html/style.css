@@ -1,0 +1,374 @@
+/*@import url(http://fonts.googleapis.com/css?family=Montserrat);*/
+html {
+  overflow-x: hidden;
+  overflow-y: hidden;
+}
+
+body {
+  background: url(images/wood_texture.jpg);
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+  position: relative;
+}
+
+#nextTurn {
+  position: absolute;
+  left: 0;
+}
+
+input {-webkit-border-top-left-radius:5px;
+  -moz-border-radius-topleft:5px;
+  border-top-left-radius:5px;
+  -webkit-border-top-right-radius:5px;
+  -moz-border-radius-topright:5px;
+  border-top-right-radius:5px;
+  -webkit-border-bottom-right-radius:5px;
+  -moz-border-radius-bottomright:5px;
+  border-bottom-right-radius:5px;
+  -webkit-border-bottom-left-radius:5px;
+  -moz-border-radius-bottomleft:5px;
+  border-bottom-left-radius:5px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#main {
+  margin-left: auto;
+  margin-right: auto;
+  position: absolute;
+  border:3px solid #eda933;
+  text-align: center;
+  -webkit-border-top-left-radius:20px;
+  -moz-border-radius-topleft:20px;
+  border-top-left-radius:20px;
+  -webkit-border-top-right-radius:20px;
+  -moz-border-radius-topright:20px;
+  border-top-right-radius:20px;
+  -webkit-border-bottom-right-radius:20px;
+  -moz-border-radius-bottomright:20px;
+  border-bottom-right-radius:20px;
+  -webkit-border-bottom-left-radius:20px;
+  -moz-border-radius-bottomleft:20px;
+  border-bottom-left-radius:20px;
+  margin-left: 30%;
+  margin-top: 200px;
+  padding: 20px;
+  background: white;
+  height: 180px;
+  width: 300px;
+}
+
+p {
+    font: 20px Consolas;
+}
+
+button {
+  -moz-box-shadow:inset 0px 0px 10px 5px #fed897;
+  -webkit-box-shadow:inset 0px 0px 10px 5px #fed897;
+  box-shadow:inset 0px 0px 10px 5px #fed897;
+  background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #f6b33d), color-stop(1, #d29105) );
+  background:-moz-linear-gradient( center top, #f6b33d 5%, #d29105 100% );
+  filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#f6b33d', endColorstr='#d29105');
+  background-color:#f6b33d;
+  -webkit-border-top-left-radius:20px;
+  -moz-border-radius-topleft:20px;
+  border-top-left-radius:20px;
+  -webkit-border-top-right-radius:20px;
+  -moz-border-radius-topright:20px;
+  border-top-right-radius:20px;
+  -webkit-border-bottom-right-radius:20px;
+  -moz-border-radius-bottomright:20px;
+  border-bottom-right-radius:20px;
+  -webkit-border-bottom-left-radius:20px;
+  -moz-border-radius-bottomleft:20px;
+  border-bottom-left-radius:20px;
+  text-indent:0px;
+  border:1px solid #eda933;
+  display:inline-block;
+  color:#ffffff;
+  font-family:Arial;
+  font-size:15px;
+  font-weight:bold;
+  font-style:normal;
+  height:50px;
+  line-height:50px;
+  width:150px;
+  text-decoration:none;
+  text-align:center;
+  text-shadow:1px 0px 0px #cd8a15;
+}
+
+button:hover {
+  background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #d29105), color-stop(1, #f6b33d) );
+  background:-moz-linear-gradient( center top, #d29105 5%, #f6b33d 100% );
+  filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#d29105', endColorstr='#f6b33d');
+  background-color:#d29105;
+}
+
+button:active {
+  position:relative;
+  top:1px;
+}
+
+#game {
+  background-image: url(images/game.jpg);
+  background-size: 100%;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+  position: relative;
+  width: 1050;
+  height: 700;
+  border: 4px solid;
+  margin: auto;
+}
+
+#playerHand {
+  position: relative;
+  float: left;
+  width: 15%;
+  height: 100%;
+}
+
+#opponentHand {
+  position: relative;
+  float: right;
+  width: 15%;
+  height: 100%;
+}
+
+#playerImage {
+  float: top;
+  width: 100%;
+  height: 30%;
+  z-index: -5;
+}
+
+#playerImage img {
+  width: 100%;
+  height: 100%;
+  z-index: -5;
+}
+
+#opponentImage {
+  float: top;
+  width: 100%;
+  height: 30%;
+  z-index: -5;
+}
+#opponentImage img {
+  width: 100%;
+  height: 100%;
+  z-index: -5;
+}
+
+
+#playerHand ul {
+  float: bottom;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+#opponentHand ul 
+{
+  position: relative;
+  float: bottom;
+  width: 100%;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+#playerHand li {
+  position: relative;
+  box-sizing:border-box;
+  -moz-box-sizing:border-box;
+  -webkit-box-sizing:border-box;
+  width: 100%;
+  height: 5%;
+}
+
+#cardsPlayerBoard
+{
+  position: relative;
+  width: 100%;
+  height: 100%;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+#cardsPlayerBoard:hover
+{
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+#cardsPlayerBoard li {
+  padding: 0;
+  margin: 0;
+  position: relative;
+  display: inline-block;
+  width: 20%;
+  height: 50%;
+}
+
+#cardsOpponentBoard
+{
+  position: relative;
+  width: 100%;
+  height: 100%;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+#cardsOpponentBoard li {
+  padding: 0;
+  margin: 0;
+  position: relative;
+  display: inline-block;
+  width: 20%;
+  height: 50%;
+}
+
+#opponentHand li {
+  position: relative;
+  width: 100%;
+  height: 5%;
+}
+
+#opponentBoard {
+  box-sizing:border-box;
+  -moz-box-sizing:border-box;
+  -webkit-box-sizing:border-box;
+  border: 1px dashed;
+  float: top;
+  margin-left: 15%;
+  width: 70%;
+  height: 50%;
+}
+
+#playerBoard {
+  box-sizing:border-box;
+  -moz-box-sizing:border-box;
+  -webkit-box-sizing:border-box;
+  border: 1px dashed;
+  position: relative;
+  float: bottom;
+  margin-left: 15%;
+  width: 70%;
+  height: 50%;
+}
+
+.card {
+  margin: auto;
+  position: relative;
+  /* Disabling selection */
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+  /* Setting border radius */
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+
+  transition: all 0.5s;
+  background-image: url("images/card_background.png");
+  width: 140px;
+  height: 210px;
+  box-shadow: 0px -5px 5px 3px rgba(0, 0, 0, 0.4);
+  cursor: pointer;
+}
+
+.selected {
+  -webkit-transform: translateY(-100px) scale(1.2);
+  transform: translateY(-100px) scale(1.2);
+
+  box-shadow: -10px 10px 60px 30px rgba(0, 0, 0, 0.3);
+  cursor: pointer;;
+}
+
+.nick {
+  top: 10%;
+  position: absolute;
+  font: 30px Consolas;
+}
+
+#playerHP {
+  position: absolute;
+  font: 30px Consolas;
+  text-shadow: 5px 5px 5px #FF0000;
+}
+
+#playerMP {
+  left: 50%;
+  position: absolute;
+  font: 30px Consolas;
+  text-shadow: 5px 5px 5px #0000FF;
+}
+#enemyHP {
+  position: absolute;
+  font: 30px Consolas;
+  text-shadow: 5px 5px 5px #FF0000;
+}
+#enemyMP {
+  left: 50%;
+  position: absolute;
+  font: 30px Consolas;
+  text-shadow: 5px 5px 5px #0000FF;
+}
+
+.monsterName {
+  text-align: center;
+  font: 10px Consolas;
+}
+
+.monsterImgBorder {
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+
+  width: 90%;
+  height: 50%;
+}
+
+.monsterImg {
+  vertical-align: middle;
+  left: auto;
+  right: auto;
+  width: 100%;
+  height: 100%;
+}
+
+.monsterDescription {
+  border: solid 3px;
+  background-color: rgba(255, 255, 255, 0.6);
+  margin-left: auto;
+  margin-right: auto;
+  font: 8px Consolas;
+  width: 90%;
+  height: 25%;
+}
+
+.attackField {
+  position: absolute;
+  font: 10px Consolas;
+  border: solid 3px;
+  position: absolute;
+  width: 15%;
+  height: 10%;
+  left: 15%;
+  text-align: center;
+}
+
+.healthField {
+  position: absolute;
+  left: 70%;
+  font: 10px Consolas;
+  text-align: center;
+  border: solid 3px;
+  width: 15%;
+  height: 10%;
+}

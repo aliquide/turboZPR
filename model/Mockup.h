@@ -11,13 +11,13 @@
 
 enum StateOfTour{
 	
-}
+};
 
 enum StateOfGame{
 	GAMESTART_TRUE;
 	TOUR_PLAYER_A;
 	TOUR_PLAYER_B;
-}
+};
 
 struct Mockup{
 	

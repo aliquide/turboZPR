@@ -29,7 +29,7 @@ class WSHandler(tornado.websocket.WebSocketHandler):
         
 
 application = tornado.web.Application([
-    (r'/', WSHandler),
+    (r'/ws', WSHandler),
 ])
 
 if __name__ == "__main__":

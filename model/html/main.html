@@ -1,0 +1,53 @@
+<html>
+<head>
+	<script src="jquery-2.1.0.js" type="text/javascript"></script>
+	<script src="jquery-ui.js"></script>
+	<link rel="stylesheet" type="text/css" href="jquery-ui.css">
+	<script src="script.js" type="text/javascript"></script>
+	<link rel="stylesheet" type="text/css" href="style.css" media="screen" />
+</head>
+<body>
+	<div id="main">
+		<p>Enter your nickname here! </p>
+		<input id="nick" type="text" size="25"> <br><br>
+		<button id="start">Start</button>
+	</div>
+	<div id="table"> 
+		<button id="nextTurn">Next turn</button>
+		<div id="game">
+			<div id="playerHand">
+				<div id="playerImage">
+						<p class="nick" id="playerNick">Player</p>
+						<p class="stats" id="playerHP">10</p>
+						<p class="stats" id="playerMP">10</p>
+					<img src="images/warlock.jpg">
+					</img>
+				</div>
+				<ul id="playerCardList">
+				</ul>
+			</div>
+			
+			<div id="opponentHand">
+				<div id="opponentImage">
+						<p class="nick" id="enemyNick">Enemy</p>
+						<p class="stats" id="enemyHP">10</p>
+						<p class="stats" id="enemyMP">10</p>
+					<img src="images/warlock.jpg">
+					</img>
+				</div>
+				<ul id="opponentCardList">
+				</ul>
+			</div>
+			
+			<div id="opponentBoard">
+				<ul id="cardsOpponentBoard">
+				</ul>
+			</div>
+			<div id="playerBoard">
+				<ul id="cardsPlayerBoard">
+				</ul>
+			</div>
+		</div>
+	</div>
+</body>
+</html> 

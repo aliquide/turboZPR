@@ -8,10 +8,13 @@
 		alert("in comunication()");
 
 		var val= document.getElementById("data").value;
-		var ws = new WebSocket("ws://localhost:8888");
+		var ws = new WebSocket("ws://localhost:8888/ws");
 
-		ws.onopen = function(evt) { alert("Connection open ..." + val);
-		ws.send(val); };
+		ws.onopen = function(evt) { 
+			alert("Connection open ..." + val);
+			ws.send(val); 
+		};
+
 		ws.onmessage = function(evt) {
 			//alert("from server: "+evt.data);
 			//document.write(evt.data);
@@ -19,7 +22,7 @@
 		}
 
 		ws.onclose = function(evt) { 
-        alert("Connection closed.");
+        	alert("Connection closed.");
 		}
 	}
 

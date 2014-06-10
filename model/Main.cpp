@@ -4,17 +4,17 @@
 #include <cstring>
 #include <sys/types.h>
 //#include <sys/socket.h> //linuks
-//#include <winsock.h> //windows
-//#include <windows.h> //windows
+#include <winsock.h> //windows
+#include <windows.h> //windows
 //#include <netdb.h> // linuks
 //#include <netinet/in.h>//linuks
 
-#include "Model.h"
+//#include "Model.h"
 
 
 
 int main(){
-/*
+
 
 	int slucham_bo_moge, msg_socket, rval;
 	struct sockaddr_in server;
@@ -48,8 +48,7 @@ int main(){
 	//close(msg_socket); // dla linuksa
 	closesocket(msg_socket); //dla windowsa
 	}
-
-*/
+	/*
 
 	//create table
 	Model model(player_id_A, player_id_B);
@@ -126,6 +125,6 @@ int main(){
 		std::cin >> c;
 
 	};
-	
+	*/
 	return 0;
 }
