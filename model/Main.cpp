@@ -13,6 +13,8 @@
 #include "Communication.h"
 #include "Mockup.h"
 #include "Controller.h"
+#include "jMockUp.h"
+#include "toJson.h"
 
 int main(){
 
@@ -22,6 +24,9 @@ int main(){
 	Controller controller;
 	Communication communication;
 	Mockup mockup;
+
+
+
 	
 	communication.id_player_A= 1000;
 	communication.id_player_B= 1001;
@@ -117,8 +122,14 @@ if(communication.kind_of_move == ATTACK){
 	communication.id_of_aim = state;
 }
 
+	communication.actual_state_of_game = RUNNING;
 //wykonujemy odpowiedni ruch
 	mockup = controller.makeMove(communication);
+	jMockUp jmockup(mockup);
+
+	toJson(jmockup);
+
+
 
 //na potrzeby testowania
 	std::cout << "Pozostalo zycia : " << std::endl;

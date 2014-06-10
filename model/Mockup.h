@@ -13,7 +13,8 @@ enum PlayersMove{
 	THROW_CARD_ON_TABLE,
 	ATTACK,
 	GET_CARD,
-	END_OF_TOUR
+	END_OF_TOUR,
+	BEGIN
 };
 
 enum StateOfTour{
@@ -43,24 +44,29 @@ struct Mockup{
 
 	std::string toStringGame(StateOfGame g){
         switch (g){
-            case GAMESTART_TRUE: return std::string m("GAMESTART_TRUE");
-            case RUNNING:        return std::string m("RUNNING");
-            case END_OF_GAME:    return std::string m("END_OF_GAME");
-	}
+            case GAMESTART_TRUE: return "GAMESTART_TRUE";
+            case RUNNING:        return "RUNNING";
+            case END_OF_GAME:    return "END_OF_GAME";
+            default: 			 return "ERROR";
+        }
+        }
 
 	std::string toStringTour(StateOfTour g){
         switch (g){
-            case GBEGIN_TOUR:          return std::string m("BEGIN_TOUR");
-            case TOUR_PLAYER_A:        return std::string m("TOUR_PLAYER_A");
-            case TOUR_PLAYER_B:        return std::string m("TOUR_PLAYER_B");
+            case TOUR_PLAYER_A:        return "TOUR_PLAYER_A";
+            case TOUR_PLAYER_B:        return "TOUR_PLAYER_B";
+            default: 				   return "ERROR";
+	}
 	}
 
-	std::string toStringMove(StateOfGame g){
+	std::string toStringMove(PlayersMove g){
         switch (g){
-            case THROW_CARD_ON_TABLE:   return std::string m("THROW_CARD_ON_TABLE");
-            case ATTACK:                return std::string m("ATTACK");
-            case GET_CARD:              return std::string m("GET_CARD");
-            case END_OF_TOUR:           return std::string m("END_OF_TOUR");
+        	case BEGIN: 				return "BEGIN";
+            case THROW_CARD_ON_TABLE:   return "THROW_CARD_ON_TABLE";
+            case ATTACK:                return "ATTACK";
+            case GET_CARD:              return "GET_CARD";
+            case END_OF_TOUR:           return "END_OF_TOUR";
+            default: 				   return "ERROR";
         }
 	}
 

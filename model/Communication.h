@@ -16,6 +16,4 @@ struct Communication{
 	int id_of_aim;
 };
 
-
-
 #endif

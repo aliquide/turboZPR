@@ -26,6 +26,8 @@ Mockup Controller::startGame(Communication communication){
 	model.table.player_B->setPlayerId(communication.id_player_B);
 
 	model.changed_state_game= GAMESTART_TRUE;
+	model.changed_move = BEGIN;
+	model.changed_state_tour = TOUR_PLAYER_A;
 	model.saveData();
 
 	this->model = model;
