@@ -10,17 +10,12 @@
 
 class jMockUp{
 public:
-	int x[100];
+
     int id_player_A;
-    int x2[100];
     int id_player_B;
-    int x3[100];
     std::string actual_move;
-    int x4[100];
 	std::string actual_state_of_tour;
-	int x5[100];
 	std::string actual_state_of_game;
-	int x6[100];
 
     std::pair<int, std::string> p1Hand[CARDS];
     std::pair<int, std::string> p2Hand[CARDS];
