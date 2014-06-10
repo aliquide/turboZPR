@@ -2,6 +2,12 @@ $(document).ready(function() {
   $("#table").hide();
 
   var playerNick = "";
+  var playerID = (new Date().getTime());
+  var opponentID = -1;
+  var lastStatus = "";
+  var callback;
+  var idleMessage;
+  var ws;
 
   function gameStatus (playerHP, playerMP, enemyHP, enemyMP)
   {
@@ -19,19 +25,7 @@ $(document).ready(function() {
   	this.health = health;
   }
 
-  var MAX_CARDS_ON_HAND = 8;
-  var MAX_CARDS_ON_BOARD = 10;
-
-  var monsterCard = new Card("Smoczysko", "images/monster1.jpg", "Straszny potwór", 6, 5);
-
-  /*$("#cardsPlayerBoard").droppable({
-    accept: function() {
-      return $("#playerBoard").find("ul").find("li").size() < MAX_CARDS_ON_BOARD;
-    },
-    drop: function(event, ui) {
-        (ui.draggable).css({"left": 0, "top": 0}).appendTo($("#playerBoard").find("ul"));
-    }
-  });*/
+  var monsterCard = new Card("MONSTER", "images/monster1.jpg", "TERRIBLE MONSTER", 6, 5);
 
   $("#cardsPlayerBoard").on('click', '.card', function()
   {
@@ -47,40 +41,93 @@ $(document).ready(function() {
     //$(".selected").removeClass("selected");
   });
 
+  $("#")
+  $("#cardsOpponentBoard").on('click', '.card', function()
+  {
+    alert("Card: " + $(".selected").attr('id') + "\nTarget: " + $(this).attr('id'));
+    if($(".selected").length > 0 && lastStatus.TuraGracza === playerID
+      && lastStatus.RuchGracza === "ATTACK")
+    {
+      var message = {
+          "playerNick" : playerNick,
+          "playerID" : playerID,
+          "cardID" : $(".selected").attr('id'),
+          "targetID": $(this).attr('id')
+        };
+
+      ws.send(JSON.stringify(message));
+    }
+  });
+
+  $("#opponentImage").click(function(){
+    alert("Attacking other player!");
+    if($(".selected").length > 0 && lastStatus.TuraGracza === playerID
+      && lastStatus.RuchGracza === "ATTACK")
+    {
+      var message = {
+          "playerNick" : playerNick,
+          "playerID" : playerID,
+          "cardID" : $(".selected").attr('id'),
+          "targetID": opponentID
+        };
+
+      ws.send(JSON.stringify(message));
+    }
+  });
+
   $('#playerHand').on('click', '.card', function()
   {
     //alert("Card clicked!");
-    $(this).parent("li").detach().appendTo('#cardsPlayerBoard');
+    if(lastStatus.TuraGracza === playerID
+      && lastStatus.RuchGracza === "THROW_CARD_ON_TABLE")
+    {
+        var message = {
+          "playerNick" : playerNick,
+          "playerID" : playerID,
+          "cardID" : $(this).attr('id'),
+          "targetID": -1
+        };
+        ws.send(JSON.stringify(message)); 
+    }
+    //$(this).parent("li").detach().appendTo('#cardsPlayerBoard');
     
-    //if()
-    //$(".selected").removeClass("selected");
-    //else if(!$("#playerBoard").hasClass("selected"))
-    //  $(this).addClass("selected");
   });
 
   $('#cardsOpponentBoard')
 
-  Card.prototype.displayCard = function(x) {
+  Card.prototype.displayCard = function(where, id, hp, att) {
 
-      var htmlCard = "<li><div class=\"card\">"
+      var htmlCard = "<li><div class=\"card\" id=\"" + id +"\">"
       htmlCard += "<h1 class=\"monsterName\">" + this.name + "</h1>"
       htmlCard += "<div class=\"monsterImgBorder\"><img class=\"monsterImg\" src=\"" + this.image + "\"></div>"
       htmlCard += "<div class=\"monsterDescription\">" + this.description + "</div>"
-      htmlCard += "<div class=\"attackField\">" + this.attack + "</div>"
-      htmlCard += "<div class=\"healthField\">" + this.health + "</div>"
+      htmlCard += "<div class=\"attackField\">" + att + "</div>"
+      htmlCard += "<div class=\"healthField\">" + hp + "</div>"
       htmlCard += "</div></li>"
 
-      if (x === 1)
-  	   $("#playerCardList").append(htmlCard);
-      else if (x === 2)
-       $("#opponentCardList").append(htmlCard);
+      switch(where)
+      {
+        case 1: // player Hand
+          $("#playerCardList").append(htmlCard);
+          break;
+        case 2: // player Board
+          $("#cardsPlayerBoard").append(htmlCard);
+          break;
+        case 3: // opponent Hand
+          $("#opponentCardList").append(htmlCard);
+          break;
+        case 4: // opponent Board
+          $("#cardsOpponentBoard").append(htmlCard);
+          break;
+
+      }
   }
 
   $("#start").click(function (){
 
     alert("in comunication()");
 
-    var ws = new WebSocket("ws://localhost:8888/ws");
+    ws = new WebSocket("ws://localhost:8888/ws");
 
     ws.onopen = function(evt) { 
       alert("Connection open ...");
@@ -91,28 +138,86 @@ $(document).ready(function() {
 
       $("#table").show();
     
-      var jsonMessage = {
-        "playerNick" : playerNick,
-        "playerID" : -1,
-        "cardID" : -1,
-        "targetID": -1
-      };
+      callback = setInterval(function()
+      {
+        idleMessage = {
+          "playerNick" : playerNick,
+          "playerID" : playerID,
+          "cardID" : -1,
+          "targetID": -1
+        };
 
-      ws.send(JSON.stringify(jsonMessage));
+         ws.send(JSON.stringify(idleMessage));
+      }, 3000);
     };
 
     ws.onmessage = function(evt) {
-      alert("Message: " + evt.data);
+      //alert("Message: " + lastStatus + " " + evt.data);
       var status = JSON.parse(evt.data);
+
       $('#enemyNick').html(status.enemyNick);
-      monsterCard.displayCard(1);
-      monsterCard.displayCard(1);
-      monsterCard.displayCard(1);
-      monsterCard.displayCard(2);
+      
+      // SETTING EVERYTHING HERE!!!
+      if(JSON.stringify(status) !== JSON.stringify(lastStatus))
+      {
+        if(status.p2 == -1)
+          $("#gameStatus").html("Waiting for another player... ");
+        else
+        {
+          if(status.TuraGracza == playerID)
+          {
+            if(status.RuchGracza == "THROW_CARD_ON_TABLE")
+              $("#gameStatus").html("Throw card on table... ");
+            else if(status.RuchGracza == "ATTACK")
+              $("#gameStatus").html("Attack... ");
+          } else {
+            $("#gameStatus").html("Opponent turn!");
+          }
+
+          if(playerID === status.p1) {
+            opponentID = status.p2;
+            $('#enemyHP').html(status.lifep2);
+            $('#enemyMP').html(status.manap2);
+            $('#playerHP').html(status.lifep1);
+            $('#playerMP').html(status.manap1);
+          } else {
+            opponentID = status.p1;
+            $('#enemyHP').html(status.lifep1);
+            $('#enemyMP').html(status.manap1);
+            $('#playerHP').html(status.lifep2);
+            $('#playerMP').html(status.manap2);
+          }
+
+          $("#enemyNick").html(status.opponentNick);
+
+          $(".card").remove();
+
+          for(var i = 0; i < 5; i ++ )
+          {
+            if(status.p1 === playerID)
+            {
+              monsterCard.displayCard(1, status.p1Hand[i].Id, status.p1Hand[i].HP, status.p1Hand[i].att);
+              monsterCard.displayCard(2, status.p1Table[i].Id, status.p1Table[i].HP, status.p1Table[i].att);
+              monsterCard.displayCard(3, status.p2Hand[i].Id, status.p2Hand[i].HP, status.p2Hand[i].att);
+              monsterCard.displayCard(4, status.p2Table[i].Id, status.p2Table[i].HP, status.p2Table[i].att);
+            } else
+            {
+              monsterCard.displayCard(3, status.p1Hand[i].Id, status.p1Hand[i].HP, status.p1Hand[i].att);
+              monsterCard.displayCard(4, status.p1Table[i].Id, status.p1Table[i].HP, status.p1Table[i].att);
+              monsterCard.displayCard(1, status.p2Hand[i].Id, status.p2Hand[i].HP, status.p2Hand[i].att);
+              monsterCard.displayCard(2, status.p2Table[i].Id, status.p2Table[i].HP, status.p2Table[i].att);
+          }
+
+
+        }
+        lastStatus = status;
+      }
     }
 
     ws.onclose = function(evt) { 
           alert("Connection closed.");
     }
+
+
   });
 });

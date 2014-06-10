@@ -12,6 +12,12 @@ body {
   position: relative;
 }
 
+#gameStatus {
+  position: relative;
+  margin-left: 30%;
+  font-style: oblique;
+}
+
 #nextTurn {
   position: absolute;
   left: 0;
