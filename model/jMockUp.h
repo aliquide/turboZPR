@@ -1,0 +1,39 @@
+//json mockup:
+#define CARDS 5
+
+class JMockup{
+public:
+    int id_player_A;
+    int id_player_B;
+
+    std::string actual_move;
+	std::string actual_state_of_tour;
+	std::string actual_state_of_game;
+
+    std::Pair<int, std::string> p1Hand[CARDS];
+    std::Pair<int, std::string> p2Hand[CARDS];
+    std::Pair<int, std::string> p1Table[CARDS];
+    std::Pair<int, std::string> p2Table[CARDS];
+
+    JMockup(Mockup mockup){
+
+        this.id_player_A = mockup.id_player_A;
+        this.id_player_B = mockup.id_player_B;
+        this.actual_state_of_tour = mockup.toStringTour(mockup.actual_state_of_tour);
+        this.actual_state_of_game = mockup.toStringGame(mockup.actual_state_of_game);
+        this.actual_state_of_move = mockup.toStringGame(mockup.actual_move);
+
+     /**@todo
+        przpisywanie cech kard do odpowiednich wektorow
+    */
+        for(int indeks = 0; indeks < CARDS 5; ++indeks ){
+            p1Table[indeks].first = mockup.cards_on_table_player_A.getIdOfCard();
+            p1Table[indeks].second = mockup.cards_on_table_player_A.getTypeOfCard();
+            p2Table[indeks].first = mockup.cards_on_table_player_B.getIdOfCard();
+            p2Table[indeks].second = mockup.cards_on_table_player_B.getTypeOfCard();
+            p1Hand[indeks].first = mockup.cards_in_hand_player_A.getIdOfCard();
+            p1Hand[indeks].second = mockup.cards_in_hand_player_A.getTypeOfCard();
+            p2Hand[indeks].first = mockup.cards_in_hand_player_A.getIdOfCard();
+            p2Hand[indeks].second = mockup.cards_in_hand_player_A.getTypeOfCard();
+            }
+    }
