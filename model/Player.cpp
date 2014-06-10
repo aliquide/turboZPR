@@ -2,9 +2,22 @@
 #include "Mockup.h"
 
 Player::Player(){
-	
+
+	this->player_id = 0;
+	this->type_ = DRUID;
 	this->mana = 20;
 	this->health = 2000;
+}
+
+Player::~Player(){
+	for(unsigned int i = 0 ; i< cards_on_table.size(); i++)
+		delete cards_on_table.at(i);
+
+	for(unsigned int i=0; i< cards_in_hand.size(); i++)
+		delete cards_in_hand.at(i);
+
+	for(unsigned int i=0; i< deck.size(); i++)
+		delete deck.at(i);
 }
 
 bool Player::getCard(){

@@ -1,6 +1,6 @@
 #include "Table.h"
 #include "FactoryOfCards.h"
-#include <sstream>
+#include <boost/shared_ptr.hpp>
 
 bool Table::throwCard(Player& player, int id_card){
 
@@ -15,7 +15,6 @@ bool Table::throwCard(Player& player, int id_card){
 	//if there was no card with id_card return (the card with this id is not in hand of player
 	if(card->getIdOfCard() == 0)
 		return 0;
-	
 	
 	//if there is room for new card we throw it on table and wait for action 
 	if(player.cards_on_table.size() < max_on_table )
@@ -33,10 +32,11 @@ bool Table::throwCard(Player& player, int id_card){
 void Table::create(int player_A_id, int player_B_id){
 
 	FactoryOfCards factory;
-	
-	player_A->setPlayerId(player_A_id);
+	std::cout<<__FILE__ << ":" << __LINE__ <<std::endl;
+	player_A->setPlayerId(player_A_id);// ->setPlayerId(player_A_id);
+	std::cout<<__FILE__ << ":" << __LINE__ <<std::endl;
 	player_B->setPlayerId(player_B_id);
-	
+	std::cout<<__FILE__ << ":" << __LINE__ <<std::endl;
 	//for example we create same deck for each player with 10 spell carts and 10 ally carts
 	for (int i = 0; i < 20; i++){
 		
@@ -67,17 +67,22 @@ void Table::create(int player_A_id, int player_B_id){
 };
 
 Table::Table(){
-	player_A = new (Player);
-	player_B = new (Player);
+	player_A = boost::shared_ptr<Player>(new Player);
+	player_B = boost::shared_ptr<Player>(new Player);
+}
+
+Table::~Table(){
 }
 
 bool Table::attack(Player& player, int id_card, int id_of_aim){
 	
 	Card* card = new (Card);
 	int position = 0; //position of card with id_card in vector
-	int position_of_aim = 10000; //position of aim if it is a card
+	int position_of_aim = -1; //position of aim if it is a card
 	int flag = 0;
-	Player *opponent;
+
+	boost::shared_ptr<Player> opponent;
+	//Player *opponent;
 
 	//finding position of card which is used to attack in vector
 	for(unsigned int i=0; i< player.cards_on_table.size(); i++)
@@ -90,17 +95,13 @@ bool Table::attack(Player& player, int id_card, int id_of_aim){
 	if(card->getIdOfCard() == 0)
 		return 0; //return 0 if function doesn't work properly
 
+	player.setMana(player.getMana() - card->getCostOfMana());
 
-	int new_mana;
-	new_mana = player.getMana();
-	new_mana -=	card->getCostOfMana();
-	player.setMana(new_mana);
-
-
-	if (&player == player_A){
+	std::cout<<"DUPA"<<std::endl;
+	if (player.getPlayerId() == this->player_A->getPlayerId()){
 		opponent = player_B;
 	}
-	else if (&player == player_B){
+	else if (player.getPlayerId() == this->player_B->getPlayerId()){
 		opponent = player_A;
 	}
 
@@ -109,12 +110,9 @@ bool Table::attack(Player& player, int id_card, int id_of_aim){
 			if(opponent->cards_on_table.at(i)->getTypeOfCard() == "MONSTER" ){
 				AllyCard* acard = dynamic_cast<AllyCard*>(card);
 				if (acard->getHealth() >= 0){
-					int new_health = acard->getHealth();
-					new_health += card->getInteraction();
-					acard->setHealth(new_health);
+					acard->setHealth(acard->getHealth() + card->getInteraction());
 				}
 				std::cout<<"Zycie potwora: " <<acard->getHealth()<<std::endl;
-
 			}
 			else if (opponent->cards_on_table.at(i)->getTypeOfCard() == "SPELL"){
 				position_of_aim = i;
@@ -123,19 +121,14 @@ bool Table::attack(Player& player, int id_card, int id_of_aim){
 		}
 
 	if (id_of_aim == opponent->getPlayerId()){
-		int new_health;
-		new_health = opponent->getHealth();
-		new_health += card->getInteraction();
-		opponent->setHealth(new_health);
+		opponent->setHealth(opponent->getHealth() + card->getInteraction());
 		flag=1;
 	}
 
-	if(flag == 0)
+	if(flag == 0) //if we didn't find the card in vector return 0 and nothing happen
 		return 0;
 
-
-	if(position_of_aim != 10000){
-		std::cout<<"Karta z zakleciem znika"<<std::endl;
+	if(position_of_aim != -1){
 		opponent->cards_on_table.erase(opponent->cards_on_table.begin() + position_of_aim);
 	}
 	

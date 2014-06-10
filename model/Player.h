@@ -27,6 +27,7 @@ public:
 	std::vector<Card*> deck;
 	
 	Player();
+	~Player();
 	
 	bool getCard();
 	int getPlayerId();
@@ -39,12 +40,12 @@ public:
 	void setMana(int);
 	void setCharacter(Character);
 
+
 protected:
 	int mana;
 	int health;
 	int player_id;
 	Character type_;
-
 };
 
 

@@ -10,8 +10,7 @@ Model::Model(){
 
 bool Model::saveData(){
 
-
-if(this->changed_move == BEGIN){
+if(this->changed_state_game == GAMESTART_TRUE){
 	for (unsigned int i=0; i<max_on_table; i++){
 		mockup.cards_on_table_player_A[i].setIdOfCard(0);
 		mockup.cards_on_table_player_B[i].setIdOfCard(0);
@@ -21,7 +20,6 @@ if(this->changed_move == BEGIN){
 		mockup.cards_in_hand_player_B[i].setIdOfCard(0);
 	}
 }
-
 
 for (unsigned int i=0; i<max_on_table; i++){
 	if (this->changed_state_tour == TOUR_PLAYER_A)
@@ -63,3 +61,4 @@ for (unsigned int i=0; i<max_in_hand; i++){
 
 return 0;
 };
+

@@ -25,20 +25,17 @@ int main(){
 	Communication communication;
 	Mockup mockup;
 
-
-
-	
 	communication.id_player_A= 1000;
 	communication.id_player_B= 1001;
 
 //tworzenie talii kart itp
 	std::cout<<__FILE__ << ":" << __LINE__ <<std::endl;
-	controller.startGame(communication);
-
+	mockup = controller.startGame(communication);
+	std::cout<<__FILE__ << ":" << __LINE__ <<std::endl;
 	//tutaj dostajemy info ze ok sie udalo zaczac gre itp:
 
 	communication.actual_state_of_game = RUNNING;
-
+	std::cout<<__FILE__ << ":" << __LINE__ <<std::endl;
 	//na potrzeby testowania
 	std::cout<<"Karty w talii gracza A:  ";
 	for (unsigned int i = 0; i < controller.model.table.player_A->deck.size(); i++) {
@@ -73,7 +70,7 @@ while (c!= 'n'){
 
 	//okreslamy czyja tura, ktory gracz
 	controller.readCommunication(communication);
-
+	std::cout<<__FILE__ << ":" << __LINE__ <<std::endl;
 //na potrzeby testowania, to bedziemy zczytywac z komunikatu	
 	std::cout<<"Co chcesz zrobic (0 - throw card on table; 1 - attack; 2 - get card from deck) ?"<<std::endl;
 	std::cin>>state;
@@ -121,15 +118,11 @@ if(communication.kind_of_move == ATTACK){
 	std::cin>>state;
 	communication.id_of_aim = state;
 }
-
 	communication.actual_state_of_game = RUNNING;
 //wykonujemy odpowiedni ruch
 	mockup = controller.makeMove(communication);
 	jMockUp jmockup(mockup);
-
 	toJson(jmockup);
-
-
 
 //na potrzeby testowania
 	std::cout << "Pozostalo zycia : " << std::endl;

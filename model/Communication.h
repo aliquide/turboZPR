@@ -3,7 +3,6 @@
 
 #include "Model.h"
 
-
 struct Communication{
 	int id_player_A;
 	int id_player_B;

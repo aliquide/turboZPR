@@ -7,9 +7,7 @@
 #include "Card.h"
 #include "Common.h"
 
-#define max_on_table 5
-#define max_in_hand 5
-//STan tury
+
 
 struct Mockup{
 	int id_player_A;
