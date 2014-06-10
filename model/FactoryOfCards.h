@@ -5,11 +5,10 @@
 #include "AllyCard.h"
 #include "SpellCard.h"
 
+
 class FactoryOfCards{
 public:
 	Card* createCard(std::string);
 };
-
-
 
 #endif

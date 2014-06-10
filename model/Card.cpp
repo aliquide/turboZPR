@@ -2,19 +2,19 @@
 
 int Card::getIdOfCard(){
 	return this->id_of_card;
-};
+}
 
 std::string Card::getTypeOfCard(){
 	return this->type_of_card;
-};
+}
 
 int Card::getInteraction(){
 	return this->interaction;
-};
+}
 
 int Card::getCostOfMana(){
 	return this->cost_of_mana;
-};
+}
 
 void Card::setIdOfCard(int new_id){
 	this->id_of_card = new_id;

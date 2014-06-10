@@ -1,7 +1,10 @@
+#include <boost/shared_ptr.hpp>
 #include "Table.h"
 #include "FactoryOfCards.h"
-#include <boost/shared_ptr.hpp>
 
+/// \brief Funkcja throwCard odpowiedzialna jest za przerzucanie karty na stół (z ręki na stół przez danego gracza).
+/// \param player określa który gracz wykonuje akcję, \param id_card identyfikuję którą kartę rzucamy z ręki danego gracza na stół.
+/// \return funkcja zwraca 1 w przypadku prawidłowego przeprowadzenia akcji oraz 0 w przyapdku nieprawidłowego przeprowadzenia akcji (np.brak karty w ręku gracza).
 bool Table::throwCard(Player& player, int id_card){
 
 	Card* card = new (Card);
@@ -28,15 +31,15 @@ bool Table::throwCard(Player& player, int id_card){
 	return 1; //if everything gone well we return 1
 };
 
-//create deck, cards etc with unique ID
+/// \brief Funkcja create odpowiedzialna jest za tworzenie talii dla graczy oraz dobranie 3 kart do ręki.
+/// \param player_A_id identyfikuje gracza A, \param player_B_id identyfikuje gracza B.
 void Table::create(int player_A_id, int player_B_id){
 
 	FactoryOfCards factory;
-	std::cout<<__FILE__ << ":" << __LINE__ <<std::endl;
-	player_A->setPlayerId(player_A_id);// ->setPlayerId(player_A_id);
-	std::cout<<__FILE__ << ":" << __LINE__ <<std::endl;
+
+	player_A->setPlayerId(player_A_id);
 	player_B->setPlayerId(player_B_id);
-	std::cout<<__FILE__ << ":" << __LINE__ <<std::endl;
+
 	//for example we create same deck for each player with 10 spell carts and 10 ally carts
 	for (int i = 0; i < 20; i++){
 		
@@ -64,25 +67,29 @@ void Table::create(int player_A_id, int player_B_id){
 	}
 	
 	return;
-};
+}
 
+/// \brief Konstruktor bezargumentowy dba o prawidłowe tworzenie sprytnych wskaźników.
 Table::Table(){
 	player_A = boost::shared_ptr<Player>(new Player);
 	player_B = boost::shared_ptr<Player>(new Player);
 }
 
+/// \brief Destruktor
 Table::~Table(){
 }
 
+/// \brief Funkcja attack odpowiedzialna jest za przeprowadzenie akcji ofensywnej na przeciwnym graczu lub karcie.
+/// \param player identyfikuje gracza rozgrywajacego \param id_card identyfikuje kartę rozgrywającą \param id_of_aim identyfikuje cel ataku
+/// \return zwraca 1 w przypadku prawidłowo przeprowadzonego ataku, 0 w przeciwnym wypadku.
 bool Table::attack(Player& player, int id_card, int id_of_aim){
 	
 	Card* card = new (Card);
 	int position = 0; //position of card with id_card in vector
 	int position_of_aim = -1; //position of aim if it is a card
-	int flag = 0;
+	int flag = 0; //flag which would be helpful
 
 	boost::shared_ptr<Player> opponent;
-	//Player *opponent;
 
 	//finding position of card which is used to attack in vector
 	for(unsigned int i=0; i< player.cards_on_table.size(); i++)
@@ -95,9 +102,10 @@ bool Table::attack(Player& player, int id_card, int id_of_aim){
 	if(card->getIdOfCard() == 0)
 		return 0; //return 0 if function doesn't work properly
 
+	//every attack cost mana
 	player.setMana(player.getMana() - card->getCostOfMana());
 
-	std::cout<<"DUPA"<<std::endl;
+	//we must know which one of player, in our model, is the opponent
 	if (player.getPlayerId() == this->player_A->getPlayerId()){
 		opponent = player_B;
 	}
@@ -105,6 +113,7 @@ bool Table::attack(Player& player, int id_card, int id_of_aim){
 		opponent = player_A;
 	}
 
+	//looking for object which is identified by id_of_aim
 	for(unsigned int i=0; i< opponent->cards_on_table.size(); i++)
 		if(id_of_aim == opponent->cards_on_table.at(i)->getIdOfCard()){
 			if(opponent->cards_on_table.at(i)->getTypeOfCard() == "MONSTER" ){
@@ -112,7 +121,6 @@ bool Table::attack(Player& player, int id_card, int id_of_aim){
 				if (acard->getHealth() >= 0){
 					acard->setHealth(acard->getHealth() + card->getInteraction());
 				}
-				std::cout<<"Zycie potwora: " <<acard->getHealth()<<std::endl;
 			}
 			else if (opponent->cards_on_table.at(i)->getTypeOfCard() == "SPELL"){
 				position_of_aim = i;
@@ -125,22 +133,23 @@ bool Table::attack(Player& player, int id_card, int id_of_aim){
 		flag=1;
 	}
 
-	if(flag == 0) //if we didn't find the card in vector return 0 and nothing happen
+	if(flag == 0) //if we didn't find the card in vector and aim wasn't opponent return 0 and nothing happen
 		return 0;
 
+	//if aim is card we is card which is type of SPELL we erase it
 	if(position_of_aim != -1){
 		opponent->cards_on_table.erase(opponent->cards_on_table.begin() + position_of_aim);
 	}
 	
+	//for cards type of MONSTER we must check if it have health to live or just disappear after using
 	if (card->getTypeOfCard() == "MONSTER"){
 		AllyCard* acard = dynamic_cast<AllyCard*>(card);
 			if (acard->getHealth() <= 0)
 				player.cards_on_table.erase(player.cards_on_table.begin()+position);		
 		}
-	else if (card->getTypeOfCard() == "SPELL"){ //if type of SPELL
+	else if (card->getTypeOfCard() == "SPELL"){ //if type of SPELL it always disappear after using
 		player.cards_on_table.erase(player.cards_on_table.begin()+position);
 	}
 
 	return 1; //return 1 when the attack was succesfull
-
-};
+}

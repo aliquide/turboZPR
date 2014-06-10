@@ -3,7 +3,12 @@
 
 #include "Card.h"
 
-class AllyCard: public Card{
+/**
+\brief Klasa AllyCard reprezentuje obiekt kartę typu sojusznik/potwór.
+\details Sojusznicy/potwory posiadają dodatkowo punkty życia. Aby karta tego typu zniknęła, należy pozbyć jej wszystkich punktów życia.
+**/
+
+class AllyCard: public Card {
 public:
 
 	const AllyCard& operator=(AllyCard);
@@ -16,8 +21,6 @@ public:
 
 private:
 	int health;
-
 };
-
 
 #endif

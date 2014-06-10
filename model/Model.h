@@ -9,7 +9,12 @@
 #include "SpellCard.h"
 #include "Mockup.h"
 
-class Model{
+/**
+    \brief Klasa Model odpowiedzialna jest za zarządzanie grą.
+    \details Model zarządza odpowiednimi stanami gry, stołem oraz aktualizuje makietę.
+ **/
+
+class Model {
 public:
 	Mockup mockup;
 	Table table;
