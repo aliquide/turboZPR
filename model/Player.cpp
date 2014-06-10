@@ -24,7 +24,7 @@ Player::~Player() {
 /// \brief Metoda getCard() dobiera kartę z talii do ręki.
 /// \return zwraca 1 w przypadku prawidłowego przeprowadzenia akcji dobierania do ręki (nie przekracza maksymalnego zakresu itp)
 bool Player::getCard() {
-	if (this->cards_in_hand.size() < max_in_hand) {
+	if (this->cards_in_hand.size() < max_in_hand && this->deck.size() > 0) {
 		Card* card_temp = new (Card);
 		card_temp = this->deck.back();
 		this->cards_in_hand.push_back(card_temp);
