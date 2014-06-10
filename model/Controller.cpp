@@ -10,6 +10,7 @@ void Controller::readCommunication(Communication communication) {
 	if (communication.actual_state_of_tour == TOUR_PLAYER_A) {
 		actual_player = model.table.player_A;
 		model.changed_state_tour = TOUR_PLAYER_A;
+		
 	} else if (communication.actual_state_of_tour == TOUR_PLAYER_B) {
 		actual_player = model.table.player_B;
 		model.changed_state_tour = TOUR_PLAYER_B;

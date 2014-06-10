@@ -64,11 +64,16 @@ Mockup Model::makeAttack(Player& actual_player, Communication communication){
 
 	//if attack was successful we change actual player and send it in new mockup data
 	if (state == 1) {
-		if (communication.actual_state_of_tour == TOUR_PLAYER_A)
+		if (communication.actual_state_of_tour == TOUR_PLAYER_A){
+			if(table.player_B->getHealth() <= 0)
+				changed_state_game = END_OF_GAME;
 			changed_state_tour = TOUR_PLAYER_B;
-		else
+		}
+		else{
+			if(table.player_A->getHealth() <= 0)
+				changed_state_game = END_OF_GAME;
 			changed_state_tour = TOUR_PLAYER_A;
-
+		}
 		changed_move = END_OF_TOUR; //end of tour preview player
 		saveData();
 	}

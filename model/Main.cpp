@@ -104,8 +104,6 @@ if(communication.kind_of_move != GET_CARD){
 }	
 	communication.id_card = state;
 
-
-
 if(communication.kind_of_move == ATTACK){
 	std::cout<<"Podaj cel (posrod kart, lub przeciwnika)"<<std::endl;
 	if (communication.actual_state_of_tour == TOUR_PLAYER_A)
