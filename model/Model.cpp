@@ -44,7 +44,13 @@ bool Model::saveData() {
 	mockup.actual_move = this->changed_move;
 	mockup.id_player_A = this->table.player_A->getPlayerId();
 	mockup.id_player_B = this->table.player_B->getPlayerId();
-
+	
+	mockup.mana_player_A = this->table.player_A->getMana();
+	mockup.mana_player_B = this->table.player_B->getMana();
+	
+	mockup.health_player_A = this-> table.player_A->getHealth();
+	mockup.health_player_B = this-> table.player_B->getHealth();
+	
 	return 1;
 }
 

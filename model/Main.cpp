@@ -124,12 +124,13 @@ if(communication.kind_of_move == ATTACK){
 
 //na potrzeby testowania
 	std::cout << "Pozostalo zycia : " << std::endl;
-	std::cout << "Gracz A: " << controller.model.table.player_A->getHealth() << std::endl;
-	std::cout << "Gracz B: " << controller.model.table.player_B->getHealth() << std::endl;
+
+	std::cout << "Gracz A: " << mockup.mana_player_A << std::endl;
+	std::cout << "Gracz B: " << mockup.mana_player_B << std::endl;
 
 	std::cout << "Pozostalo many : " << std::endl;
-	std::cout << "Gracz A: " << controller.model.table.player_A->getMana() << std::endl;
-	std::cout << "Gracz B: " << controller.model.table.player_B->getMana() << std::endl;
+	std::cout << "Gracz A: " << mockup.health_player_A << std::endl;
+	std::cout << "Gracz B: " << mockup.health_player_B << std::endl;
 
 	std::cout<< "Karty na stole graczy: "<<std::endl;
 	for(unsigned int i=0; i<max_on_table;i++){

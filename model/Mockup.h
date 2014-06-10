@@ -16,6 +16,12 @@
 struct Mockup {
 	int id_player_A;
 	int id_player_B;
+	
+	int mana_player_A;
+	int mana_player_B;
+	
+	int health_player_A;
+	int health_player_B;
 
 	Card cards_on_table_player_A[max_on_table];
 	Card cards_on_table_player_B[max_on_table];
