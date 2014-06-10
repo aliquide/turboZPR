@@ -43,3 +43,28 @@ std::string toStringMove(PlayersMove g) {
 		return "ERROR";
 	}
 }
+
+Dictionary::Dictionary(){
+    this->dicGame.insert(std::make_pair("GAMESTART_TRUE", GAMESTART_TRUE));
+    this->dicGame.insert(std::make_pair("RUNNING", RUNNING));
+    this->dicGame.insert(std::make_pair("END_OF_GAME", END_OF_GAME));
+    this->dicTour.insert(std::make_pair("TOUR_PLAYER_A", TOUR_PLAYER_A));
+    this->dicTour.insert(std::make_pair("TOUR_PLAYER_B", TOUR_PLAYER_B));;
+    this->dicMove.insert(std::make_pair("BEGIN", BEGIN));
+    this->dicMove.insert(std::make_pair("THROW_CARD_ON_TABLE", THROW_CARD_ON_TABLE));
+    this->dicMove.insert(std::make_pair("ATTACK", ATTACK));
+    this->dicMove.insert(std::make_pair("GET_CARD",GET_CARD));
+    this->dicMove.insert(std::make_pair("END_OF_TOUR",END_OF_TOUR));
+
+}
+
+PlayersMove Dictionary::fromStringMove(std::string s){
+    return dicMove[s];
+
+}
+StateOfTour Dictionary::fromStringTour(std::string s){
+    return dicTour[s];
+}
+StateOfGame Dictionary::fromStringGame(std::string s){
+    return dicGame[s];
+}

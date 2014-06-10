@@ -2,6 +2,7 @@
 #define COMMON
 
 #include<string>
+#include<map>
 #define max_on_table 5
 #define max_in_hand 5
 
@@ -20,5 +21,18 @@ enum StateOfGame {
 std::string toStringGame(StateOfGame g);
 std::string toStringTour(StateOfTour g);
 std::string toStringMove(PlayersMove g);
+
+
+class Dictionary{
+public:
+    Dictionary();
+    PlayersMove fromStringMove(std::string);
+    StateOfTour fromStringTour(std::string);
+    StateOfGame fromStringGame(std::string);
+private:
+    std::map<std::string, PlayersMove> dicMove;
+    std::map<std::string, StateOfTour> dicTour;
+    std::map<std::string, StateOfGame> dicGame;
+};
 
 #endif

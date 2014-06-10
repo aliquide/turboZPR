@@ -35,4 +35,18 @@ boost::property_tree::ptree toJson(jMockUp mp) {
 	return pt;
 }
 
+
+Communication fromJson(boost::property_tree::ptree cm){
+        Communication com;
+        Dictionary di;
+        com.id_player_A = cm.get<int>("p1");
+        com.id_player_B = cm.get<int>("p2");
+        com.actual_state_of_tour = di.fromStringTour(cm.get<std::string>("TuraGracza"));
+        com.kind_of_move = di.fromStringMove(cm.get<std::string>("RuchGracza"));
+        com.actual_state_of_game = di.fromStringGame(cm.get<std::string>("StanGry"));
+        com.id_card = cm.get<int>("IdKarty");
+        com.id_card = cm.get<int>("IdCelu");
+        return com;
+}
+
 #endif
