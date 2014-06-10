@@ -1,10 +1,8 @@
 #ifndef JMOCKUP
 #define JMOCKUP
 
-
 #include <utility>
-#include <string>
-
+#include "Common.h"
 //json mockup:
 #define CARDS 5
 
@@ -26,9 +24,9 @@ public:
 
        	 this->id_player_A = mockup.id_player_A;
          this->id_player_B = mockup.id_player_B;
-         this->actual_state_of_tour = mockup.toStringTour(mockup.actual_state_of_tour);
-         this->actual_state_of_game = mockup.toStringGame(mockup.actual_state_of_game);
-         this->actual_move = mockup.toStringMove(mockup.actual_move);
+         this->actual_state_of_tour = toStringTour(mockup.actual_state_of_tour);
+         this->actual_state_of_game = toStringGame(mockup.actual_state_of_game);
+         this->actual_move = toStringMove(mockup.actual_move);
 
      /**@todo
         przpisywanie cech kard do odpowiednich wektorow

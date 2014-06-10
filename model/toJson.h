@@ -1,10 +1,9 @@
+#ifndef TOJSON
+#define TOJSON
+
 #include "boost/property_tree/ptree.hpp"
 #include "boost/property_tree/json_parser.hpp"
 #include "jMockUp.h"
-
-using namespace std;
-using boost::property_tree::ptree;
-using boost::property_tree::basic_ptree;
 
 boost::property_tree::ptree addCards(std::pair<int,std::string> *el){
         boost::property_tree::ptree pCards;
@@ -35,3 +34,5 @@ boost::property_tree::ptree toJson(jMockUp mp){
     write_json("test2.json", pt);
     return pt;
 }
+
+#endif
