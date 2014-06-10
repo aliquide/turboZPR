@@ -9,18 +9,19 @@
 #include "SpellCard.h"
 #include "Mockup.h"
 
-
-
-
 class Model{
 public:
-	
+	Mockup mockup;
 	Table table;
 
-	void update(Player&);
+	Model();
+	Model(int, int);
 
-	Model(String, String);
+	StateOfTour changed_state_tour;
+	StateOfGame changed_state_game;
+	PlayersMove changed_move;
 
+	bool saveData();
 };
 
 #endif

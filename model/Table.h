@@ -1,29 +1,22 @@
 #ifndef TABLE
 #define TABLE
 
-#include <cstdio>
-#include <vector>
 #include <boost/shared_ptr.hpp>
+#include <vector>
 #include "Card.h"
 #include "Player.h"
+#include "Mockup.h"
 
 class Table{
 public:
-	//smart_ptr
-	std::vector<Card*> cards_on_table_player_A;
-	std::vector<Card*> cards_on_table_player_B;
-	
-	Player* player_A, * player_B;
+	boost::shared_ptr<Player> player_A, player_B;
 
-	void useCard(Player&, int);
-	void throwCard(Player&, int);
-	void activateCard(int);
+	bool throwCard(Player&, int);
+	bool attack(Player&, int,int);
+	void create(int, int);
 
-	void create(String, String);
-	
-//protected:
-	//Table();
-
+	Table();
+	~Table();
 };
 
 
