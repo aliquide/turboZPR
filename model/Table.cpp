@@ -126,7 +126,7 @@ bool Table::attack(Player& player, int id_card, int id_of_aim){
 		}
 
 	if (id_of_aim == opponent->getPlayerId()){
-		if(opponent->getHealth() > 0){
+		if(opponent->getHealth() > 0)
 			opponent->setHealth(opponent->getHealth() + card->getInteraction());
 
 		flag=1;

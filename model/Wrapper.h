@@ -7,11 +7,11 @@
 
 
 /**
- 	 \brief Klasa Controller odpowiada za kontrolowanie modelu i przebiegu gry.
+ 	 \brief Klasa Wrapper odpowiada za kontrolowanie modelu i przebiegu gry i dostarczenie interfejsu kontrolerowi.
  	 \details Na podstawie interpretowanego komunikatu pochodzącego od serwera sterujemy przebiegiem gry.
  **/
 
-class Controller {
+class Wrapper {
 public:
 	boost::shared_ptr<Player> actual_player;
 	Model model;

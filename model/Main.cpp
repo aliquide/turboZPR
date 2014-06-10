@@ -12,14 +12,14 @@
 #include "Model.h"
 #include "Communication.h"
 #include "Mockup.h"
-#include "Controller.h"
+#include "Wrapper.h"
 #include "jMockUp.h"
 #include "toJson.h"
 
 int main(){
 
 
-	Controller controller;
+	Wrapper wrapper;
 	Communication communication;
 	Mockup mockup;
 
@@ -28,7 +28,7 @@ int main(){
 
 	//tworzenie talii kart itp
 
-	mockup = controller.startGame(communication);
+	mockup = wrapper.startGame(communication);
 
 	//tutaj dostajemy info ze ok sie udalo zaczac gre itp:
 
@@ -36,13 +36,13 @@ int main(){
 	
 	//na potrzeby testowania
 	std::cout<<"Karty w talii gracza A:  ";
-	for (unsigned int i = 0; i < controller.model.table.player_A->deck.size(); i++) {
-		std::cout<<" "<< controller.model.table.player_A->deck.at(i)->getIdOfCard() << " typu: "<< controller.model.table.player_A->deck.at(i)->getTypeOfCard()<<";";
+	for (unsigned int i = 0; i < wrapper.model.table.player_A->deck.size(); i++) {
+		std::cout<<" "<< wrapper.model.table.player_A->deck.at(i)->getIdOfCard() << " typu: "<< wrapper.model.table.player_A->deck.at(i)->getTypeOfCard()<<";";
 	}
 	std::cout<<std::endl;
 	std::cout<<"Karty w talii gracza B:  ";
-	for (unsigned int i = 0; i < controller.model.table.player_B->deck.size(); i++) {
-		std::cout<<" "<< controller.model.table.player_B->deck.at(i)->getIdOfCard() << " typu: "<< controller.model.table.player_B->deck.at(i)->getTypeOfCard()<<";";
+	for (unsigned int i = 0; i < wrapper.model.table.player_B->deck.size(); i++) {
+		std::cout<<" "<< wrapper.model.table.player_B->deck.at(i)->getIdOfCard() << " typu: "<< wrapper.model.table.player_B->deck.at(i)->getTypeOfCard()<<";";
 	}
 	std::cout<<std::endl;
 	
@@ -59,15 +59,15 @@ while (c!= 'n'){
 	//tylko na potrzeby testowania
 	if(state == 0){
 		communication.actual_state_of_tour = TOUR_PLAYER_A;
-		communication.id_of_aim = controller.model.table.player_B->getPlayerId();
+		communication.id_of_aim = wrapper.model.table.player_B->getPlayerId();
 	}
 	else{
 		communication.actual_state_of_tour = TOUR_PLAYER_B;
-		communication.id_of_aim = controller.model.table.player_A->getPlayerId();
+		communication.id_of_aim = wrapper.model.table.player_A->getPlayerId();
 	}
 
 	//okreslamy czyja tura, ktory gracz
-	controller.readCommunication(communication);
+	wrapper.readCommunication(communication);
 
 //na potrzeby testowania, to bedziemy zczytywac z komunikatu	
 	std::cout<<"Co chcesz zrobic (0 - throw card on table; 1 - attack; 2 - get card from deck) ?"<<std::endl;
@@ -90,13 +90,13 @@ while (c!= 'n'){
 //na potrzeby testowania
 if(communication.kind_of_move != GET_CARD){
 	std::cout<<"Twoje karty na stole (id_card): " << std::endl;
-	for(unsigned int i=0; i< controller.actual_player->cards_on_table.size(); i++){
-		std::cout<<controller.actual_player->cards_on_table.at(i)->getIdOfCard()<<std::endl;
+	for(unsigned int i=0; i< wrapper.actual_player->cards_on_table.size(); i++){
+		std::cout<<wrapper.actual_player->cards_on_table.at(i)->getIdOfCard()<<std::endl;
 	}
 	
 	std::cout<<"Twoje karty w reku (id_card): " << std::endl;
-	for(unsigned int i=0; i< controller.actual_player->cards_in_hand.size(); i++){
-		std::cout<<controller.actual_player->cards_in_hand.at(i)->getIdOfCard()<<std::endl;
+	for(unsigned int i=0; i< wrapper.actual_player->cards_in_hand.size(); i++){
+		std::cout<<wrapper.actual_player->cards_in_hand.at(i)->getIdOfCard()<<std::endl;
 	}
 	
 	std::cout<<"Ktora karta chcesz GRAC" <<std::endl;
@@ -107,16 +107,16 @@ if(communication.kind_of_move != GET_CARD){
 if(communication.kind_of_move == ATTACK){
 	std::cout<<"Podaj cel (posrod kart, lub przeciwnika)"<<std::endl;
 	if (communication.actual_state_of_tour == TOUR_PLAYER_A)
-		std::cout<<controller.model.table.player_B->getPlayerId() << std::endl;
+		std::cout<<wrapper.model.table.player_B->getPlayerId() << std::endl;
 	else
-		std::cout<<controller.model.table.player_A->getPlayerId() <<std::endl;
+		std::cout<<wrapper.model.table.player_A->getPlayerId() <<std::endl;
 
 	std::cin>>state;
 	communication.id_of_aim = state;
 }
 	communication.actual_state_of_game = RUNNING;
 //wykonujemy odpowiedni ruch
-	mockup = controller.makeMove(communication);
+	mockup = wrapper.makeMove(communication);
 	jMockUp jmockup(mockup);
 	toJson(jmockup);
 

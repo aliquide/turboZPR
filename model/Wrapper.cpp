@@ -1,10 +1,10 @@
-#include "Controller.h"
+#include "Wrapper.h"
 #include "Mockup.h"
 #include "Model.h"
 
 /// \brief Funkcja readCommunication interpretuje komunikat przychodzący od serwera w celu określenia gracza rozgrywającego.
 /// \param communication jest komunikatem, ktory otrzymujemy od serwera.
-void Controller::readCommunication(Communication communication) {
+void Wrapper::readCommunication(Communication communication) {
 
 	//which one player is actual
 	if (communication.actual_state_of_tour == TOUR_PLAYER_A) {
@@ -21,7 +21,7 @@ void Controller::readCommunication(Communication communication) {
 /// \brief Funkcja startGame odpowiedzialna jest za rozpoczęcie rozgrywki, ustawienie odpowiednich stanów w makiecie przesyłanej do serwera.
 /// \param communication jest komunikatem otrzymywanym z serwera
 /// \return zwraca makietę danych, przesyłaną do serwera w celu powiadomienia o rozpoczątej rozgrywce
-Mockup Controller::startGame(Communication communication) {
+Mockup Wrapper::startGame(Communication communication) {
 	
 	Mockup mockup;
 	Model model(communication.id_player_A, communication.id_player_B);
@@ -37,7 +37,7 @@ Mockup Controller::startGame(Communication communication) {
 /// \brief Funkcja makeMove odpowiedzialna jest za przeprowadzenie odpowiedniej akcji.
 /// \param communication jest komunikatem otrzymywanym z serwera
 /// \return zwraca makietę danych, przesyłaną do serwera w celu powiadomienia o zmianach dokonanych podczas rozgrywki
-Mockup Controller::makeMove(Communication communication) {
+Mockup Wrapper::makeMove(Communication communication) {
 
 	Mockup mockup;
 	bool state = 0; //helpful variable which would be needed to check state of actual action
@@ -68,7 +68,7 @@ Mockup Controller::makeMove(Communication communication) {
 
 /// \brief Funkcja endGame odpowiedzialna jest za konczenie gry.
 /// \return zwraca makietę danych, przesyłaną do serwera w celu powiadomienia o zmianach i zakończeniu gry.
-Mockup Controller::endGame() {
+Mockup Wrapper::endGame() {
 	Mockup mockup;
 	mockup = model.endingGame();
 	return mockup;
@@ -77,7 +77,7 @@ Mockup Controller::endGame() {
 /// \brief Funkcja update wywoluje pozostale metody w odpowiednich stanach gry
 /// \param communication jest komunikatem otrzymywanym z serwera
 /// \return zwraca makietę danych, przesyłaną do serwera w celu powiadomienia o zmianach
-Mockup Controller::update(Communication communication) {
+Mockup Wrapper::update(Communication communication) {
 	Mockup mockup;
 	
 	switch (communication.actual_state_of_game) {
