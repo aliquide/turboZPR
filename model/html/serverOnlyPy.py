@@ -6,14 +6,93 @@ import tornado.websocket
 import tornado.ioloop
 from tornado.ioloop import PeriodicCallback
 import tornado.web
-
+import time
 MockUp = {
     "pHP" : 5,
     "pMP" : 8    
 }
 
-def msg_from_game():
-    return json.dumps(MockUp)
+
+
+class Retval:
+    PLEXIST = 1
+    WAITFP2 = 2
+    GAMESTART = 3
+
+Makieta ={}
+DANE = { "p1" : { "playerNick" : "", "playerID" : 0, "TimeSinceLastCall" : 0},
+         "p2" : { "playerNick" : "", "playerID" : 0, "TimeSinceLastCall" : 0}}
+
+def msg_from_game(comm):
+	global Makieta
+	client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+	client_socket.connect(("127.0.0.1", 11000))
+	client_socket.send(json.dumps(comm))
+	Makieta = json.loads(client_socket.recv(1024).strip())
+
+def player_exist(login_ID):
+	global DATA
+	if (DATA["p1"]["playerID"] == login_ID[1] and DATA["p2"]["playerID"] !=0) or (DATA["p2"]["playerID"] == login_ID[1] and DATA["p1"]["playerID"] != 0):
+		#gracz istnieje
+		return Retval.PLEXIST
+	elif DATA["p1"]["playerNick"] == "":
+		DATA["p1"] = { "playerNick" : login_ID[0], "playerID" : login_ID[1], "TimeSinceLastCall" : time.time()}
+		return Retval.WAITFP2
+	elif DATA["p2"]["playerNick"] == "":
+		DATA["p2"] = { "playerNick" : login_ID[0], "playerID" : login_ID[1], "TimeSinceLastCall" : time.time()}
+		return Retval.GAMESTART
+
+def get_key(playerId):
+	global DATA
+	for key, value in DATA.iteritems():
+		if value["playerID"] == playerId:
+			return key
+
+def msg_for_client(player):
+    global Makieta
+    com = {}
+    com["p1"] = Makieta["p1"]
+    com["p2"] = Makieta["p2"]
+    com["p1Table"] = Makieta["p1Table"]
+    com["p2Table"] = Makieta["p2Table"]
+    com[player +"Hand"] = Makieta[player + "Hand"]
+    return com
+
+def com_to_game(stanGry, turaGracza, ruchGracza, idKarty, idCelu): #byc moze zamienic na deepcopy tutaj mock up to jest makieta ktora dostaje od Pawla
+	global DATA
+	com = {}
+	com["p1"] = DATA["p1"]["playerID"]
+	com["p2"] = DATA["p2"]["playerID"]
+	com["StanGry"] = stanGry
+	com["TuraGracza"] = stanTury   # wypisuje co gracz chce zrobic chyba ze nie zmienia tury' lub z mockup biore
+	com["RuchGracza"] = ruchGracza
+	com["IdKarty"] = idKarty
+	com["IdCelu"] = idCelu
+	return com
+
+def switch( dane_klient):
+	global Makieta
+	tup = dane_klient["playerNick"], dane_klient["playerID"]
+	state = player_exist(tup)
+
+	if state == Retval.WAITFP2:
+		return 2
+	elif state == Retval.GAMESTART:
+		#stworzenie gry, odebranie makiety i wytworzenie komunikatow
+		msg_from_game(com_to_game("GAMESTART_TRUE", "","", -1, -1)) # mamy ustawiona aktualna makiete
+		return msg_for_client(get_key(tup[1]))
+	elif state == Retval.PLEXIST:
+		if state[0] == -1 and state[1] == -1:
+			#przeslanie odpowiedniemu graczowi widoku
+			return msg_for_client(get_key(tup[1]))
+		elif state[0] != -1 and state[1] == -1:
+			#karta wylozona na stol
+			msg_from_game(com_to_game(Makieta["StanGry"], Makieta["TuraGracza"],"THROW_CARD_ON_TABLE", dane_klient["cardID"], -1))
+			return msg_for_client(get_key(tup[1]))
+		else:
+			#atak konkretnego przeciwnika na konkretna karte
+			msg_from_game(com_to_game(Makieta["StanGry"], Makieta["TuraGracza"],"ATTACK", dane_klient["cardID"], -1))
+			return msg_for_client(get_key(tup[1]))
 
 class WSHandler(tornado.websocket.WebSocketHandler):
         def open(self):

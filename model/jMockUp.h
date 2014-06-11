@@ -11,6 +11,10 @@ public:
 
 	int id_player_A;
 	int id_player_B;
+	int p1life;
+    int p2life;
+    int p1mana;
+    int p2mana;
 	std::string actual_move;
 	std::string actual_state_of_tour;
 	std::string actual_state_of_game;
