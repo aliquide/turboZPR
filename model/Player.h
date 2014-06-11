@@ -13,8 +13,8 @@
 #include "SpellCard.h"
 
 /**
-  	  \brief Klasa Player reprezentuje gracza.
-  	  \details Gracz posiada karty w ręku, karty na stole oraz talię kart. Gracza identyfikujemy po jego indywidualnym ID.
+\brief Klasa Player reprezentuje gracza.
+\details Gracz posiada karty w ręku, karty na stole oraz talię kart. Gracza identyfikujemy po jego indywidualnym ID.
  **/
 
 enum Character {

@@ -3,11 +3,11 @@
 
 #include <cstring>
 #include <sys/types.h>
-//#include <sys/socket.h> //linuks
+#include <sys/socket.h> //linuks
 //#include <winsock.h> //windows
 //#include <windows.h> //windows
-//#include <netdb.h> // linuks
-//#include <netinet/in.h>//linuks
+#include <netdb.h> // linuks
+#include <netinet/in.h>//linuks
 
 #include "Model.h"
 #include "Communication.h"
@@ -17,8 +17,49 @@
 #include "toJson.h"
 
 int main(){
+	
+	int slucham_bo_moge, msg_socket, rval;
+
+ 	struct sockaddr_in server;
+
+ 	char buffor[1024];
+
+ 	slucham_bo_moge = socket(AF_INET, SOCK_STREAM, 0);
+ 	
+ 	server.sin_family = AF_INET;
+ 	server.sin_addr.s_addr = INADDR_ANY;
+ 	server.sin_port = htons(11000);
+	
+	while(true){
+		
+		int cokolwiek = bind(slucham_bo_moge, (struct sockaddr *) &server, sizeof server);
+		std::cout<< "bind : "  << cokolwiek << std::endl;
+		
+		listen(slucham_bo_moge, 5);
+		
+		msg_socket = accept(slucham_bo_moge, (struct sockaddr *) 0,(socklen_t *) 0); //dla linuksa
+		
+		if(msg_socket == -1)
+			std::cout<< "error -1" << std::endl;
+ 		else{
+			memset(buffor, 0 , sizeof buffor);
+ 		
+			rval = read(msg_socket, buffor, 1024);
+			std::cout << "Wiadomosc " << rval << std::endl;
+ 		
+			int cntr = write(msg_socket, "dziala", 6);//dla linuksa
+
+			//int cntr = send(msg_socket, "dziala", 6, 0);
+
+			close(msg_socket); // dla linuksa
+
+		//closesocket(msg_socket); //dla windowsa
+		}
+	}
 
 
+
+/*
 	Wrapper wrapper;
 	Communication communication;
 	Mockup mockup;
@@ -163,4 +204,5 @@ if(communication.kind_of_move == ATTACK){
 };
 
 	return 0;
+	*/
 }

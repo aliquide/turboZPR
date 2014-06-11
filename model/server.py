@@ -23,8 +23,8 @@ class WSHandler(tornado.websocket.WebSocketHandler):
         def on_message(self, message):
                 self.write_message(message.upper())
         
-
         def on_close(self):
+		self.callback = PeriodicCallback(self.send_msg,9000)
                 self.callback.stop()
         
 

@@ -22,6 +22,5 @@ public:
 	Mockup makeMove(Communication);
 	Mockup endGame();
 	Mockup update(Communication);
-	
 };
 #endif

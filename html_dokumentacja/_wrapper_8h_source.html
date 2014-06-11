@@ -1,0 +1,128 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.6"/>
+<title>zprr: Plik źródłowy model/Wrapper.h</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() { searchBox.OnSelectItem(0); });
+</script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">zprr
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Wygenerowano przez Doxygen 1.8.6 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "search",false,'Szukaj');
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="index.html"><span>Strona&#160;główna</span></a></li>
+      <li><a href="pages.html"><span>Dodatkowe&#160;strony</span></a></li>
+      <li><a href="annotated.html"><span>Klasy</span></a></li>
+      <li class="current"><a href="files.html"><span>Pliki</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="Szukaj" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="files.html"><span>Lista&#160;plików</span></a></li>
+    </ul>
+  </div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Klasy</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Funkcje</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Strony</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_3f14f6767c31cb4a1d22c13c18cc6fc3.html">model</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="headertitle">
+<div class="title">Wrapper.h</div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#ifndef CONTROLLER</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define CONTROLLER</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;boost/shared_ptr.hpp&gt;</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &quot;Model.h&quot;</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &quot;Communication.h&quot;</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;</div>
+<div class="line"><a name="l00014"></a><span class="lineno"><a class="line" href="class_wrapper.html">   14</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_wrapper.html">Wrapper</a> {</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    boost::shared_ptr&lt;Player&gt; actual_player;</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    <a class="code" href="class_model.html">Model</a> model;</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_wrapper.html#aea4d639204c63ea63d03e5ca5d689e49">readCommunication</a>(<a class="code" href="struct_communication.html">Communication</a>);</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    <a class="code" href="struct_mockup.html">Mockup</a> <a class="code" href="class_wrapper.html#a1ff8093de85c115401aa85d52ca3006e">startGame</a>(<a class="code" href="struct_communication.html">Communication</a>);</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    <a class="code" href="struct_mockup.html">Mockup</a> <a class="code" href="class_wrapper.html#adfa6fb65ad4ee66601d5a29bbe233609">makeMove</a>(<a class="code" href="struct_communication.html">Communication</a>);</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    <a class="code" href="struct_mockup.html">Mockup</a> <a class="code" href="class_wrapper.html#ad9fd5c968044c2d2a276d81c42ac28a3">endGame</a>();</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    <a class="code" href="struct_mockup.html">Mockup</a> <a class="code" href="class_wrapper.html#a2039c7f687b7763c674dfcad91b805c6">update</a>(<a class="code" href="struct_communication.html">Communication</a>);</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;};</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="ttc" id="class_wrapper_html_adfa6fb65ad4ee66601d5a29bbe233609"><div class="ttname"><a href="class_wrapper.html#adfa6fb65ad4ee66601d5a29bbe233609">Wrapper::makeMove</a></div><div class="ttdeci">Mockup makeMove(Communication)</div><div class="ttdoc">Funkcja makeMove odpowiedzialna jest za przeprowadzenie odpowiedniej akcji. </div><div class="ttdef"><b>Definition:</b> Wrapper.cpp:40</div></div>
+<div class="ttc" id="class_wrapper_html_a2039c7f687b7763c674dfcad91b805c6"><div class="ttname"><a href="class_wrapper.html#a2039c7f687b7763c674dfcad91b805c6">Wrapper::update</a></div><div class="ttdeci">Mockup update(Communication)</div><div class="ttdoc">Funkcja update wywoluje pozostale metody w odpowiednich stanach gry. </div><div class="ttdef"><b>Definition:</b> Wrapper.cpp:80</div></div>
+<div class="ttc" id="class_model_html"><div class="ttname"><a href="class_model.html">Model</a></div><div class="ttdoc">Klasa Model odpowiedzialna jest za zarządzanie grą. </div><div class="ttdef"><b>Definition:</b> Model.h:18</div></div>
+<div class="ttc" id="class_wrapper_html_ad9fd5c968044c2d2a276d81c42ac28a3"><div class="ttname"><a href="class_wrapper.html#ad9fd5c968044c2d2a276d81c42ac28a3">Wrapper::endGame</a></div><div class="ttdeci">Mockup endGame()</div><div class="ttdoc">Funkcja endGame odpowiedzialna jest za konczenie gry. </div><div class="ttdef"><b>Definition:</b> Wrapper.cpp:71</div></div>
+<div class="ttc" id="class_wrapper_html"><div class="ttname"><a href="class_wrapper.html">Wrapper</a></div><div class="ttdoc">Klasa Wrapper odpowiada za kontrolowanie modelu i przebiegu gry i dostarczenie interfejsu kontrolerow...</div><div class="ttdef"><b>Definition:</b> Wrapper.h:14</div></div>
+<div class="ttc" id="struct_mockup_html"><div class="ttname"><a href="struct_mockup.html">Mockup</a></div><div class="ttdoc">Struktura Mockup jest makietą danych przesyłanych do serwera. </div><div class="ttdef"><b>Definition:</b> Mockup.h:16</div></div>
+<div class="ttc" id="class_wrapper_html_aea4d639204c63ea63d03e5ca5d689e49"><div class="ttname"><a href="class_wrapper.html#aea4d639204c63ea63d03e5ca5d689e49">Wrapper::readCommunication</a></div><div class="ttdeci">void readCommunication(Communication)</div><div class="ttdoc">Funkcja readCommunication interpretuje komunikat przychodzący od serwera w celu określenia gracza roz...</div><div class="ttdef"><b>Definition:</b> Wrapper.cpp:7</div></div>
+<div class="ttc" id="struct_communication_html"><div class="ttname"><a href="struct_communication.html">Communication</a></div><div class="ttdoc">Klasa Communication jest komunikatem odbieranym z serwera. </div><div class="ttdef"><b>Definition:</b> Communication.h:11</div></div>
+<div class="ttc" id="class_wrapper_html_a1ff8093de85c115401aa85d52ca3006e"><div class="ttname"><a href="class_wrapper.html#a1ff8093de85c115401aa85d52ca3006e">Wrapper::startGame</a></div><div class="ttdeci">Mockup startGame(Communication)</div><div class="ttdoc">Funkcja startGame odpowiedzialna jest za rozpoczęcie rozgrywki, ustawienie odpowiednich stanów w maki...</div><div class="ttdef"><b>Definition:</b> Wrapper.cpp:24</div></div>
+</div><!-- fragment --></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+Wygenerowano Śr, 11 cze 2014 02:06:07 dla zprr programem &#160;<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/>
+</a> 1.8.6
+</small></address>
+</body>
+</html>
