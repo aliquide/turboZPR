@@ -10,7 +10,8 @@ $(document).ready(function() {
 	    	alert("Communication opened!");
 		    
 			var status = {
-				"id" : $('#nick').val(),
+				"playerNick" : $('#nick').val(),
+				"playerID" : 2,
 				"card" : -1,
 				"target" : -1
 			};

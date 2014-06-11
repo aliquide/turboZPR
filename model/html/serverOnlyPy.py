@@ -19,8 +19,113 @@ class Retval:
     WAITFP2 = 2
     GAMESTART = 3
 
-Makieta ={}
-DANE = { "p1" : { "playerNick" : "", "playerID" : 0, "TimeSinceLastCall" : 0},
+Makieta ={
+	"p1Table" : [
+	{
+        "Id": 1 ,
+        "cardStr" : "nazwaobrazka1"
+    },
+	{
+        "Id": 2 ,
+        "cardStr" : "nazwaobrazka2"
+    },
+    {
+        "Id": 3 ,
+        "cardStr" : "nazwaobrazka3"
+    },
+    {
+        "Id": 4 ,
+        "cardStr" : "nazwaobrazka4"
+    },
+    {
+        "Id": 5 ,
+        "cardStr" : "nazwaobrazka5"
+    },
+
+ ],
+
+ "p2Table" : [
+	{
+        "Id": 1 ,
+        "cardStr" : "nazwaobrazka1"
+    },
+	{
+        "Id": 2 ,
+        "cardStr" : "nazwaobrazka2"
+    },
+    {
+        "Id": 3 ,
+        "cardStr" : "nazwaobrazka3"
+    },
+    {
+        "Id": 4 ,
+        "cardStr" : "nazwaobrazka4"
+    },
+    {
+        "Id": 5 ,
+        "cardStr" : "nazwaobrazka5"
+    },
+
+ ],
+
+  "p1Hand" : [
+	{
+        "Id": 1 ,
+        "cardStr" : "nazwaobrazka1"
+    },
+	{
+        "Id": 2 ,
+        "cardStr" : "nazwaobrazka2"
+    },
+    {
+        "Id": 3 ,
+        "cardStr" : "nazwaobrazka3"
+    },
+    {
+        "Id": 4 ,
+        "cardStr" : "nazwaobrazka4"
+    },
+    {
+        "Id": 5 ,
+        "cardStr" : "nazwaobrazka5"
+    },
+
+ ],
+
+ "p2Hand" : [# cyfra - id karty dane przez serwer, string - nazwa obrazka ktorego klient ma wyswietlic
+	{
+        "Id": 1 ,
+        "cardStr" : "nazwaobrazka1"
+    },
+	{
+        "Id": 2 ,
+        "cardStr" : "nazwaobrazka2"
+    },
+    {
+        "Id": 3 ,
+        "cardStr" : "nazwaobrazka3"
+    },
+    {
+        "Id": 4 ,
+        "cardStr" : "nazwaobrazka4"
+    },
+    {
+        "Id": 5 ,
+        "cardStr" : "nazwaobrazka5"
+    },
+
+ ],
+ "p1" : "tutajID",
+ "p2" : "tutajID",
+ "StanGry" : "tutajstan", # start gry / gra trwa / koniec gry
+ "RuchGracza    " : "tutajstan", # wykladanie kart/ atakuj gracza / doloswanie kart/ koniec tury
+ "TuraGracza" : "Idgracza", # id gracza ktory wlasnie sie rusza to w mock up stan tury
+ "p1mana": 1,
+ "p2mana": 2,
+ "p1life": 3,
+ "p2life": 4
+}
+DATA = { "p1" : { "playerNick" : "", "playerID" : 0, "TimeSinceLastCall" : 0},
          "p2" : { "playerNick" : "", "playerID" : 0, "TimeSinceLastCall" : 0}}
 
 def msg_from_game(comm):
@@ -49,14 +154,18 @@ def get_key(playerId):
 			return key
 
 def msg_for_client(player):
-    global Makieta
-    com = {}
-    com["p1"] = Makieta["p1"]
-    com["p2"] = Makieta["p2"]
-    com["p1Table"] = Makieta["p1Table"]
-    com["p2Table"] = Makieta["p2Table"]
-    com[player +"Hand"] = Makieta[player + "Hand"]
-    return com
+	global Makieta
+	com = {}
+	com["p1"] = Makieta["p1"]
+	com["p2"] = -1
+	com["p1Table"] = Makieta["p1Table"]
+	com["p2Table"] = Makieta["p2Table"]
+	com[player +"Hand"] = Makieta[player + "Hand"]
+	com["p1mana"] = Makieta["p1mana"]
+	com["p2mana"] = Makieta["p2mana"]
+	com["p1life"] = Makieta["p1life"]
+	com["p2life"] = Makieta["p2life"]
+	return com
 
 def com_to_game(stanGry, turaGracza, ruchGracza, idKarty, idCelu): #byc moze zamienic na deepcopy tutaj mock up to jest makieta ktora dostaje od Pawla
 	global DATA
@@ -76,7 +185,7 @@ def switch( dane_klient):
 	state = player_exist(tup)
 
 	if state == Retval.WAITFP2:
-		return 2
+		return msg_for_client(get_key(tup[1]))
 	elif state == Retval.GAMESTART:
 		#stworzenie gry, odebranie makiety i wytworzenie komunikatow
 		msg_from_game(com_to_game("GAMESTART_TRUE", "","", -1, -1)) # mamy ustawiona aktualna makiete
@@ -110,10 +219,13 @@ class WSHandler(tornado.websocket.WebSocketHandler):
                 jsonMessage = json.loads(message)
                 
                 jsonAnswer = {}
-                jsonAnswer["playerNick"] = jsonMessage["playerNick"]
-                jsonAnswer["playerID"] = 1
-                jsonAnswer["enemyNick"] = "Alfons"
-                jsonAnswer["enemyID"] = 2
+                jsonAnswer = switch(jsonMessage)
+                
+                #~ jsonAnswer = {}
+                #~ jsonAnswer["playerNick"] = jsonMessage["playerNick"]
+                #~ jsonAnswer["playerID"] = 1
+                #~ jsonAnswer["enemyNick"] = "Alfons"
+                #~ jsonAnswer["enemyID"] = 2
 
                 self.write_message(json.dumps(jsonAnswer))
         
